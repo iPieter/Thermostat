@@ -1,0 +1,123 @@
+#wall {	
+	margin-top: 0px;
+	margin-left: 170px;
+}
+
+#wall div {
+	padding: 0px;
+}
+
+#wall .brick {
+	background-color: #fff;
+	position: relative;
+	z-index: auto;
+	/*padding: 2px;*/
+	height: 292px;
+	border-right: 3px solid rgb(236, 240, 241);
+	border-bottom: 3px solid rgb(236, 240, 241); 
+}
+
+#wall .mockup {
+	padding-top: 10px;
+	padding-left: 5px;
+	height: 192px;
+}
+
+#wall .mockup div {
+	height: 100%;
+	border: 3px dashed rgb(236, 240, 241);
+}
+
+#wall h1 {
+	margin: 5px;
+	font-size: 16px;
+	font-weight: 600;
+	color: rgb(52, 73, 94);
+	text-transform: uppercase;
+	display: inline-block;
+	position: relative;
+	margin-right: 3px;
+}
+
+#wall h2 {
+	margin-top: 5px;
+	margin-bottom: 2px;
+	font-size: 16px;
+	font-weight: 300;
+	color: rgb(52, 73, 94);
+	display: inline-block;
+	position: relative;
+}
+
+#wall .dropdown {
+	display: inline-block;
+	position: relative;
+}
+
+#wall a:hover, a:focus {
+	
+}
+
+#wall .brickTop {
+	background-color: #34495e; /*e74c3c*/
+	border-bottom: 3px solid #2c3e50; /*c0392b */
+	text-align: center;
+	text-transform: capitalize;
+	font-size: 18px;
+	color: #fff;
+	padding: 3px;
+	
+}
+
+#wall .brickTop .glyphicon {
+	font-size: 14px;
+}
+
+#wall #tempCanvas {
+	background-image: url("../images/sprites/tempCircle.png");
+	height: 100%;
+	width: 292px;
+	background-size: contain;
+	background-repeat: no-repeat;
+
+	text-align: center;
+	font-weight: 400;
+	font-size: 60px;
+}
+
+#wall #tempCanvas #tens {
+	font-size: 30px;
+}
+
+#wall #tempCircle {
+	height: 100%;
+}
+
+#wall #temperatureDiv{
+	display: flex;
+}
+
+#wall .settings {	
+	right: 0;
+	margin-top: 50px;
+}
+
+#wall #mode {
+	width: 80%;
+	padding: 20px;
+	padding-top: 0px;
+	text-align: center;
+}
+
+#wall .tempKol {
+	width: 100%;
+}
+
+#wall .settings .heightFix {
+	height: 34px;
+}
+
+#wall #usageDiv {
+	margin-left: 5px; 
+	height: 100%;
+}

@@ -1,0 +1,22 @@
+body {
+	margin: 0px;
+	background-color: rgb(236, 240, 241);
+}
+
+hr {
+   display: block;
+   position: relative;
+   padding: 0;
+   margin: 8px auto;
+   height: 0;
+   width: 100%;
+   max-height: 0;
+   font-size: 1px;
+   line-height: 0;
+   clear: both;
+   border: none;
+   border-top: 2px solid rgb(44, 62, 80);
+   border-bottom: 1px solid rgba(60,84,109,1);
+}
+
+

@@ -1,0 +1,69 @@
+#sidebar {
+	position:fixed !important;
+	position:absolute;
+	bottom:0;
+	left: 0;
+	float: left;
+	margin: 0px;
+	width: 170px;
+	height: 100%;
+	background-color: rgb(52, 73, 94);
+}
+
+#sidebar .glyphicon {
+	font-size: 10px;
+}
+
+#sidebar #avatar {
+	position: relative;
+	display: block;
+	margin-top: 12px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 64px;
+	height: 64px;
+	border: 3px solid rgb(189, 195, 199);
+	-webkit-border-radius: 200px;
+	-moz-border-radius: 200px;
+	border-radius: 200px;
+}
+
+
+#sidebar #avatar img {
+	width: 64px;
+	height: 64px;
+	-webkit-border-radius: 200px;
+	-moz-border-radius: 200px;
+	border-radius: 200px;
+}
+
+#sidebar #username{
+	position: relative;
+	display: block;
+	margin-top: 6px;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+#sidebar #username .text {
+	display: inline-block;
+	color: rgb(236, 240, 241);
+	text-align: center;
+	font-weight: 300;
+	font-family: 'Open Sans', sans-serif;
+
+}
+
+#sidebar #username .icon-arrow-down {
+	display: inline-block;
+	width: 16px;
+	height: 10px;
+	background-image: url("../images/sprites/arrow-down.png");
+	background-repeat: no-repeat;
+	vertical-align: middle;
+}
+
+#sidebar .navigation {
+	color: rgb(189, 195, 199)!important;
+}

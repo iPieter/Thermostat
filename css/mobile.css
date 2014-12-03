@@ -1,0 +1,105 @@
+body {
+    -webkit-text-size-adjust:none;
+	background-color: #fff;
+	position: relative;
+	z-index: auto;
+	/*padding: 2px;*/
+	height: 292px;
+	border-right: 3px solid rgb(236, 240, 241);
+	border-bottom: 3px solid rgb(236, 240, 241); 
+	width: 100%;
+}
+
+h1 {
+	margin: 5px;
+	font-size: 16px;
+	font-weight: 600;
+	color: rgb(52, 73, 94);
+	text-transform: uppercase;
+	display: inline-block;
+	position: relative;
+	margin-right: 3px;
+}
+
+h2 {
+	margin-top: 5px;
+	margin-bottom: 2px;
+	font-size: 16px;
+	font-weight: 300;
+	color: rgb(52, 73, 94);
+	display: inline-block;
+	position: relative;
+}
+
+.dropdown {
+	display: inline-block;
+	position: relative;
+}
+
+a:hover, a:focus {
+	
+}
+
+.brickTop {
+	background-color: #34495e; /*e74c3c*/
+	border-bottom: 3px solid #2c3e50; /*c0392b */
+	text-align: center;
+	text-transform: capitalize;
+	font-size: 24px;
+	color: #fff;
+	padding: 3px;
+	
+}
+
+.brickTop .glyphicon {
+	font-size: 18px;
+}
+
+#tempCanvas {
+	background-image: url("../images/sprites/tempCircle.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	display: inline-block;
+	text-align: center;
+	font-weight: 400;
+	font-size: 60px;
+}
+
+#tempCanvas #tens {
+	font-size: 30px;
+}
+
+#tempCircle {
+	height: 100%;
+}
+
+#temperatureDiv{
+}
+
+.settings {	
+	display: inline-table;
+	margin-top: -20px;
+	margin-bottom: 40px;
+	height: 44px;
+}
+
+#mode {
+	padding: 20px;
+	padding-top: 0px;
+	text-align: center;
+}
+
+.tempKol {
+	text-align: center;
+	
+}
+
+.settings .heightFix {
+	height: 44px;
+}
+
+.settings #temperature {
+	font-size: 18px;
+	height: 44px;
+}
+
