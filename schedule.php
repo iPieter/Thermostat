@@ -6,8 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	
-	<link rel="stylesheet" type="text/css" href="css/wall.css">
-	<link rel="stylesheet" type="text/css" href="css/topbar.css">
+	<link rel="stylesheet" type="text/css" href="css/schedule.css">
 	<link rel="stylesheet" type="text/css" href="css/sidebar.css">
 
 	
@@ -17,6 +16,9 @@
 <body>
 
 	<?php 
+
+		//include("scripts/datalogin.php"); 
+		
     // First we execute our common code to connection to the database and start the session 
     require("scripts/common.php"); 
      
@@ -31,7 +33,34 @@
         die("Redirecting to account/login.php"); 
     }
     
-	include("elements/sidebar/sidebar.php");
-	include("elements/topbar/topbar.php"); ?>
+	include("elements/sidebar/sidebar.php"); ?>
+
+<div id="schedule" class="container-fluid">
+	<div class="row">
+
+		<div class="col-md-12" id="selectDay"> <div class="brick">
+			<div class="btn-group btn-group settings" id="modes" role="group" aria-label="Mode selector">
+
+				<button type="button" id="btnAway" class="btn btn-default ">Mo</button>
+				<button type="button" id="btnHome" class="btn btn-default ">Tu</button>
+				<button type="button" id="btnSleep" class="btn btn-default ">We</button>
+				<button type="button" id="btnAway" class="btn btn-default ">Th</button>
+				<button type="button" id="btnHome" class="btn btn-default ">Fr</button>
+				<button type="button" id="btnSleep" class="btn btn-default ">Sa</button>
+				<button type="button" id="btnAway" class="btn btn-default ">Su</button>
+			</div>
+		</div></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-4"> <div class="brick">.col-md-3</div></div>
+	  <div class="col-md-4 "> <div class="brick">.col-md-3</div></div>
+	  <div class="col-md-4 "> <div class="brick">.col-md-2</div></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-6 "> <div class="brick">.col-md-4</div></div>
+	  <div class="col-md-6 "> <div class="brick">.col-md-3</div></div>
+	</div>
+</div>
+</div>
 
 </body> 

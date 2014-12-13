@@ -32,6 +32,8 @@ var usageChart = new Chart(ctx).Line(data, {scaleBeginAtZero: true, scaleOverrid
     scaleStepWidth: 250,
     // Number - The scale starting value
     scaleStartValue: 0,
+    
+    animationSteps: 10,
 });
 
 

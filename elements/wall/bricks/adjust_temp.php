@@ -71,7 +71,10 @@ $("#btnAway").click(function() {
  	$("#btnAway").addClass("active");
  	$("#btnHome").removeClass("active");
  	$("#btnSleep").removeClass("active");
- 	refreshTarget(); 	
+ 	refreshTarget(); 
+ 	
+ 	$input.val(8);
+	redraw(8);	
 });
 
 $("#btnHome").click(function() {
@@ -79,7 +82,10 @@ $("#btnHome").click(function() {
  	$("#btnHome").addClass("active");
  	$("#btnAway").removeClass("active");
  	$("#btnSleep").removeClass("active");
- 	refreshTarget(); 	
+ 	refreshTarget(); 
+ 	
+ 	$input.val(17);
+	redraw(17);	
 });
 
 $("#btnSleep").click(function() {
@@ -87,7 +93,10 @@ $("#btnSleep").click(function() {
  	$("#btnSleep").addClass("active");
  	$("#btnAway").removeClass("active");
  	$("#btnHome").removeClass("active");
- 	refreshTarget(); 	
+ 	refreshTarget();
+ 	
+ 	 $input.val(15);
+	redraw(15); 	
 });
 
 $input = $("#temperature");
@@ -126,17 +135,29 @@ function redraw(tarTemp) {
 	var canvas = document.getElementById("tempCanvas");
 	var context = canvas.getContext("2d");
 	
-	var tarTempAngle = 20/360 * Math.PI * (tarTemp - 30);
-    var curTempAngle = 20/360 * Math.PI * (curTemp - 30);
+	if (curTemp <= 8) {
+	    curTemp = 8;
+	} else if (curTemp >= 34){
+	    curTemp = 34;
+	}
+	
+	var tarTempAngle = 20/360 * Math.PI * (Math.max(Math.min(tarTemp,34),8) - 30);
+    var curTempAngle = 20/360 * Math.PI * (Math.max(Math.min(curTemp,34),8) - 30);
     
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     //draw the current temp
 	context.beginPath();
+	
+
 	context.moveTo(130*Math.cos(curTempAngle) + 146, 130*Math.sin(curTempAngle)+ 146);
 	context.lineTo(88*Math.cos(curTempAngle) + 146 ,88*Math.sin(curTempAngle) + 146);
 	context.strokeStyle = "#bdc3c7";
-	context.lineWidth = 3;
+	if (curTemp == 8 || curTemp == 34) {
+	    context.lineWidth = 7;
+	} else {
+	    context.lineWidth = 3;
+	}
 	context.stroke();
 	
 	//draw the target temp

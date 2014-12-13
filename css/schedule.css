@@ -1,0 +1,71 @@
+#schedule {	
+	margin-top: 0px;
+	margin-left: 170px;
+}
+
+#schedule div {
+	padding: 0px;
+}
+
+#schedule .brick {
+	background-color: #fff;
+	position: relative;
+	z-index: auto;
+	/*padding: 2px;*/
+	height: 30px;
+	border-right: 3px solid rgb(236, 240, 241);
+	border-bottom: 3px solid rgb(236, 240, 241); 
+}
+
+#schedule .mockup {
+	padding-top: 10px;
+	padding-left: 5px;
+	height: 192px;
+}
+
+#schedule .mockup div {
+	height: 100%;
+	border: 3px dashed rgb(236, 240, 241);
+}
+
+#schedule h1 {
+	margin: 5px;
+	font-size: 16px;
+	font-weight: 600;
+	color: rgb(52, 73, 94);
+	text-transform: uppercase;
+	display: inline-block;
+	position: relative;
+	margin-right: 3px;
+}
+
+#schedule h2 {
+	margin-top: 5px;
+	margin-bottom: 2px;
+	font-size: 16px;
+	font-weight: 300;
+	color: rgb(52, 73, 94);
+	display: inline-block;
+	position: relative;
+}
+
+#schedule .dropdown {
+	display: inline-block;
+	position: relative;
+}
+
+#schedule a:hover, a:focus {
+	
+}
+
+#schedule #selectDay {
+	text-align: center;
+}
+
+#schedule #selectday div {
+	height: 45px;
+}
+
+#schedule .btn-group {
+	margin: 5px;
+}

@@ -115,6 +115,7 @@ $("#btnSleep").click(function() {
  	refreshTarget(); 	
 });
 
+$input = $("#temperature");
 
 function refreshTarget() {
 	
@@ -144,7 +145,6 @@ window.addEventListener("load",function() {
 	}, 0);
 });
 
-$input = $("#temperature");
 
 $("#minus").click(function() {
 
@@ -169,7 +169,7 @@ if (curValue < 34) {
 
 $(window).load(refresh());
 
-var tid = setInterval(refresh, 5000);
+var tid = setInterval(refresh, 3000);
 var curTemp;
 
 var coreID = '53ff6f065067544809431287';
@@ -180,17 +180,29 @@ function redraw(tarTemp) {
 	var canvas = document.getElementById("tempCanvas");
 	var context = canvas.getContext("2d");
 	
-	var tarTempAngle = 20/360 * Math.PI * (tarTemp - 30);
-    var curTempAngle = 20/360 * Math.PI * (curTemp - 30);
+	if (curTemp <= 8) {
+	    curTemp = 8;
+	} else if (curTemp >= 34){
+	    curTemp = 34;
+	}
+	
+	var tarTempAngle = 20/360 * Math.PI * (Math.max(Math.min(tarTemp,34),8) - 30);
+    var curTempAngle = 20/360 * Math.PI * (Math.max(Math.min(curTemp,34),8) - 30);
     
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     //draw the current temp
 	context.beginPath();
+	
+
 	context.moveTo(130*Math.cos(curTempAngle) + 146, 130*Math.sin(curTempAngle)+ 146);
 	context.lineTo(88*Math.cos(curTempAngle) + 146 ,88*Math.sin(curTempAngle) + 146);
 	context.strokeStyle = "#bdc3c7";
-	context.lineWidth = 3;
+	if (curTemp == 8 || curTemp == 34) {
+	    context.lineWidth = 7;
+	} else {
+	    context.lineWidth = 3;
+	}
 	context.stroke();
 	
 	//draw the target temp
@@ -243,13 +255,35 @@ function refresh() {
 	        curTemp = parseFloat(data.T);
 	        
 	        redraw(tarTemp);		
-
+			
+			usageChart.addData([Math.round(20*data.dutyCycle)], getTime());
+			usageChart.removeData();
 			
 	      },
 	error: function (request, xhr) {
 	    context.clearRect(0, 0, canvas.width, canvas.height);
 	  	context.font = '50pt Open Sans';
 	    context.fillText( ":'(", 146, 160);
+	}
+	});
+	
+	
+}
+
+function refreshTarget() {
+	
+	$.ajax({
+	url: 'scripts/get_target.php', 
+	data: "", 
+	dataType: 'json',
+	success: function(data){
+			$input.val(data.T);
+	        
+	        redraw(tarTemp);		
+
+			
+	      },
+	error: function (request, xhr) {
 	}
 	});
 	
