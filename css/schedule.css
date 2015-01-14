@@ -60,12 +60,14 @@
 
 #schedule #selectDay {
 	text-align: center;
+
 }
 
 #schedule #selectday div {
-	height: 45px;
+	height: 70px;
 }
 
 #schedule .btn-group {
 	margin: 5px;
+	margin-top: 20px;
 }

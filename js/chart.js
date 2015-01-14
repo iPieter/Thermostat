@@ -89,6 +89,9 @@
 			// String - Scale label font colour
 			scaleFontColor: "#666",
 
+			// Number - how many x-labels to skip
+			xLabelsToSkip: 3,
+
 			// Boolean - whether or not the chart should be responsive and resize when the browser does.
 			responsive: false,
 
@@ -1493,7 +1496,7 @@
 					firstRotatedWidth;
 				this.xLabelWidth = originalLabelWidth;
 				//Allow 3 pixels x2 padding either side for label readability
-				var xGridWidth = Math.floor(this.calculateX(1) - this.calculateX(0)) - 6;
+				var xGridWidth = 4*Math.floor(this.calculateX(1) - this.calculateX(0)) - 6;
 
 				//Max label rotate should be 90 - also act as a loop counter
 				while ((this.xLabelWidth > xGridWidth && this.xLabelRotation === 0) || (this.xLabelWidth > xGridWidth && this.xLabelRotation <= 90 && this.xLabelRotation > 0)){
@@ -1564,7 +1567,7 @@
 
 					ctx.textAlign = "right";
 					ctx.textBaseline = "middle";
-					if (this.showLabels){
+					if (this.showLabels ){
 						ctx.fillText(labelString,xStart - 10,yLabelCenter);
 					}
 					ctx.beginPath();
@@ -1635,7 +1638,10 @@
 					ctx.font = this.font;
 					ctx.textAlign = (isRotated) ? "right" : "center";
 					ctx.textBaseline = (isRotated) ? "middle" : "top";
+					if (index%4 == 0) {
+					
 					ctx.fillText(label, 0, 0);
+					}
 					ctx.restore();
 				},this);
 
@@ -2646,9 +2652,10 @@
 					fillColor : this.datasets[datasetIndex].pointColor
 				}));
 			},this);
-
+			
 			this.scale.addXLabel(label);
 			//Then re-render the chart.
+
 			this.update();
 		},
 		removeData : function(){

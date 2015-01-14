@@ -1,6 +1,7 @@
 <html>
 <head>
 	<title>Dashboard</title>
+	<link rel="icon" type="image/png" href="http://thermostat.ipieter.be/images/favicon.png">
 	
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:100,300,600' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -24,11 +25,11 @@
     if(empty($_SESSION['user'])) 
     { 
         // If they are not, we redirect them to the login page. 
-        header("Location: account/login.php"); 
+        header("Location: account/login.php?r=index.php"); 
          
         // Remember that this die statement is absolutely critical.  Without it, 
         // people can view your members-only content without logging in. 
-        die("Redirecting to account/login.php"); 
+        die("Redirecting to account/login.php?r=index.php"); 
     }
     
 	include("elements/sidebar/sidebar.php");

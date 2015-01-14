@@ -8,7 +8,7 @@ var ctx = canvas.getContext("2d");
 fitToContainer(canvas);
 
 var data = {
-    labels: ["0", "1", "2", "3", "4", "5", "6"],
+    labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8"],
     datasets: [
         {
             label: "Power Usage",
@@ -18,7 +18,7 @@ var data = {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [0, 0, 0, 0, 0, 0, 0]
+            data: [0,0,0,0,0,0,0,0,0]
         }
     ]
 };
@@ -34,6 +34,8 @@ var usageChart = new Chart(ctx).Line(data, {scaleBeginAtZero: true, scaleOverrid
     scaleStartValue: 0,
     
     animationSteps: 10,
+    
+    pointHitDetectionRadius : 10
 });
 
 

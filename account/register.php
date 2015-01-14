@@ -118,12 +118,14 @@
                 username, 
                 password, 
                 salt, 
-                email 
+                email,
+                accesslevel 
             ) VALUES ( 
                 :username, 
                 :password, 
                 :salt, 
-                :email 
+                :email,
+                'viewer' 
             ) 
         "; 
          

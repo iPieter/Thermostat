@@ -1,27 +1,7 @@
 <?php 
-include("scripts/datalogin.php"); 
-		    
-//check the users access level
-$username = htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8');
-
-$accesslevel = mysqli_query($con, "SELECT * FROM users WHERE `users`.`username` = '$username';");
-$row_accesslevel = mysqli_fetch_array($accesslevel);
-
-if ($row_accesslevel['accesslevel'] == 'viewer') {
-	header("Location: account/login.php?r=index.php"); 
-
-	die("Redirecting to account/login.php?r=index.php"); 
-}
-
-$user_id = $row_accesslevel['id'];
-
-$device = mysqli_query($con, "SELECT * FROM devices WHERE `devices`.`user_id` = $user_id;");
-$row_device = mysqli_fetch_array($device);
-
-
 //get the current target temperature
-$my_access_token=$row_device['spark_token'];
-$my_device=$row_device['spark_id'];
+$my_access_token="ed12140a298d303849276bf9f204113269a44f2e";
+$my_device="53ff6f065067544809431287";
 
 try {        
 //get the measured sum 
@@ -65,25 +45,21 @@ $mode = $json->result;
 
 <div class="tempKol" id="mode"> 
 	  <div class="settings">
-		  <h1><?php echo $row_device['location_name'];?></h1>
+		  <h1>Pieter's room</h1>
 
     </div>
-    
+
 	<div class="btn-group btn-group-lg settings" id="modes" role="group" aria-label="Mode selector">
-		<button type="button" id="btnAway" class="btn btn-default <?php if ($mode == 0) {echo 'active';} ?> "><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
-		<button type="button" id="btnHome" class="btn btn-default <?php if ($mode == 1) {echo 'active';}?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
-		<button type="button" id="btnSleep" class="btn btn-default <?php if ($mode == 2) {echo 'active';}?>"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></button>
+		<button type="button" id="btnAway" class="btn btn-default <?php if ($mode == 0) {echo 'active';} else {echo '" disabled="disabled"';} ?> "><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
+		<button type="button" id="btnHome" class="btn btn-default <?php if ($mode == 1) {echo 'active';}else{echo '" disabled="disabled"';}?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
+		<button type="button" id="btnSleep" class="btn btn-default <?php if ($mode == 2) {echo 'active';}else{echo '" disabled="disabled"';}?>"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></button>
 	  </div>
 	  
 	  <div class="input-group settings">
-      	<span class="input-group-btn">
-        	<button class="btn btn-default heightFix" id="minus" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-        </span>
-      <input type="number" class="form-control" id="temperature" min="0" max="100" value="<?php echo($setpoint); ?>">
+
+      <input type="number" class="form-control" id="temperature" min="0" max="100" value="<?php echo($setpoint); ?>" disabled>
       <span class="input-group-addon">&degC</span>
-      <span class="input-group-btn">
-        	<button class="btn btn-default heightFix" id="plus" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-        </span>
+
     </div>
 </div>
 
@@ -91,55 +67,9 @@ $mode = $json->result;
 
 <script>
 
-$("#btnAway").click(function() {
- 	doMethod('setMode', "away");
- 	$("#btnAway").addClass("active");
- 	$("#btnHome").removeClass("active");
- 	$("#btnSleep").removeClass("active");
- 	$input.val(8);
-	redraw(8);	
-});
 
-$("#btnHome").click(function() {
- 	doMethod('setMode', "home");
- 	$("#btnHome").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnSleep").removeClass("active");
-  	$input.val(21);
-	redraw(21);	
-});
-
-$("#btnSleep").click(function() {
- 	doMethod('setMode', "sleep");
- 	$("#btnSleep").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnHome").removeClass("active");
- 	$input.val(16);
-	redraw(16); 	
-});
 
 $input = $("#temperature");
-
-$("#minus").click(function() {
-
-var curValue = parseInt($input.val());
-
-if (curValue > 8) {
- 	$input.val((curValue - 1));
- 	redraw(curValue - 1);
- 	
- 	 doMethod('setTarget', curValue - 1);
- 	 	
-}});
-
-$("#plus").click(function() {
-var curValue = parseInt($input.val());
-if (curValue < 34) {
- 	$input.val((curValue + 1));
- 	redraw(curValue + 1);
- 	
- 	doMethod('setTarget', curValue + 1);
-}});
 
 $(window).load(refresh());
 
@@ -201,18 +131,6 @@ function redraw(tarTemp) {
 
 var baseURL = "https://api.spark.io/v1/devices/";
 
-function doMethod(method, data) {
-    var url = baseURL + coreID + "/" + method;
-    $.ajax({
-      type: "POST",
-      url: url,
-      data: { access_token: apiToken, args: data },
-      success: onMethodSuccess,
-      dataType: "json"
-    }).fail(function(obj) {
-      onMethodFailure();
-    });
-  }
 
 function refresh() {
 	

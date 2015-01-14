@@ -12,7 +12,7 @@ $bits = 4096;
 try {        
 //get the measured sum 
 //Warning: BLACK MAGIC, DO NOT TOUCH!
-$url="https://api.spark.io/v1/devices/$my_device/sum?access_token=$my_access_token";
+$url="https://api.spark.io/v1/devices/$my_device/temp?access_token=$my_access_token";
 
 //  Initiate curl
 $ch = curl_init();
@@ -26,7 +26,8 @@ curl_setopt($ch, CURLOPT_URL,$url);
 $result=curl_exec($ch);
 
 $json = json_decode($result);
-$sum = $json->result;
+$temperature = $json->result;
+$temperature_rounded =round($temperature,1);
 
 $url="https://api.spark.io/v1/devices/$my_device/dutyCycle?access_token=$my_access_token";
 
@@ -41,8 +42,7 @@ $dutyCycle = $json->result;
 //$R = 68;
 //$P = round($U1*$U1 / $R, 3);
 
-$U1 = $sum*$maxU/($max_samples*$bits);
-$temperature = round($U1*100,1);
+
 
 //get the temperature (T)
 //$json = file_get_contents('http://api.openweathermap.org/data/2.5/weather?q=flobecq,be');
@@ -62,7 +62,7 @@ $temperature = round($U1*100,1);
 //}
 
 //encode to json and show on the page
-$d = array('T' => $temperature, 'dutyCycle' => $dutyCycle);
+$d = array('T' => $temperature_rounded, 'dutyCycle' => $dutyCycle);
 
 echo json_encode($d);
 }

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
     <title>Login</title>
 
@@ -26,6 +25,13 @@
     // login form if they fail to enter the correct password.  It is initialized here 
     // to an empty value, which will be shown if the user has not submitted the form. 
     $submitted_username = ''; 
+    
+    //get the original page the user came from 
+    if (isset($_GET['r'])) {
+    	$original_page = $_GET['r'];	    
+    } else {
+    	$original_page = '';	    
+    }
      
     // This if statement checks to determine whether the login form has been submitted 
     // If it has, then the login code is run, otherwise the form is displayed 
@@ -60,7 +66,7 @@
         { 
             // Note: On a production website, you should not output $ex->getMessage(). 
             // It may provide an attacker with helpful information about your code.  
-            die("Failed to run query: " . $ex->getMessage()); 
+            //die("Failed to run query: " . $ex->getMessage()); 
         } 
          
         // This variable tells us whether the user has successfully logged in or not. 
@@ -108,8 +114,8 @@
             $_SESSION['user'] = $row; 
              
             // Redirect the user to the private members-only page. 
-            header("Location: ../index.php"); 
-            die("Redirecting to: ../index.php"); 
+            header("Location: ../" . $original_page); 
+            die("Redirecting to: ../". $original_page); 
         } 
         else 
         { 
@@ -127,7 +133,7 @@
      
 ?>
 <div class="container">
-	<form class="form-signin" role="form" action="login.php" method="post">
+	<form class="form-signin" role="form" action="login.php<?php echo "?r=" .$original_page; ?>"  method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" name="username" class="form-control" placeholder="Email address or username" required="" autofocus="">
         <input type="password" name="password" class="form-control" placeholder="Password" required="">

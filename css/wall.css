@@ -7,13 +7,17 @@
 	padding: 0px;
 }
 
+#wall .row {
+	border-right: 3px solid rgb(236, 240, 241);
+}
+
 #wall .brick {
 	background-color: #fff;
 	position: relative;
 	z-index: auto;
 	/*padding: 2px;*/
 	height: 292px;
-	border-right: 3px solid rgb(236, 240, 241);
+	border-left: 3px solid rgb(236, 240, 241);
 	border-bottom: 3px solid rgb(236, 240, 241); 
 }
 
@@ -95,11 +99,16 @@
 
 #wall #temperatureDiv{
 	display: flex;
+	display: -webkit-flex;
 }
 
 #wall .settings {	
 	right: 0;
-	margin-top: 50px;
+	margin-top: 15px;
+}
+
+#wall .settings.btn-group {	
+	margin-top: 0px;
 }
 
 #wall #mode {
@@ -119,5 +128,5 @@
 
 #wall #usageDiv {
 	margin-left: 5px; 
-	height: 100%;
+	/*height: 100%;*/
 }
