@@ -48,7 +48,7 @@ $(document).ready(function () {
 	<div class="navigation">
 		<ul class="nav nav-pills  nav-stacked">
 			<li <?php if (curPageName() == "index.php") {echo "class='active'";} ?> ><a href="<?php echo $baseurl?>" data-target="#"><span class="glyphicon glyphicon-th-large"></span> Dashboard</a></li>
-			<li <?php if (curPageName() == "devices.php") {echo "class='active'";} ?>><a href="<?php echo $baseurl?>devices.php" data-target="#"><span class="glyphicon glyphicon-stats"></span> Usage</a></li>
+			<li <?php if (curPageName() == "usage.php") {echo "class='active'";} ?>><a href="<?php echo $baseurl?>devices.php" data-target="#"><span class="glyphicon glyphicon-stats"></span> Usage</a></li>
 			<li <?php if (curPageName() == "schedule.php") {echo "class='active'";} ?>> <a href="<?php echo $baseurl?>schedule.php" data-target="#"><span class="glyphicon glyphicon-calendar"></span> Schedule</a></li>
 		</ul>
 	</div>

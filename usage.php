@@ -36,7 +36,6 @@
         die("Redirecting to account/login.php?r=index.php"); 
     }
     
-	include("elements/sidebar/sidebar.php");
-	include("elements/wall/wall.php");?>
+	include("elements/sidebar/sidebar.php");?>
 
 </body> 

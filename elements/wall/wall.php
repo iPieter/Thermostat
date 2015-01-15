@@ -22,7 +22,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-4"> <div class="brick"><?php include("bricks/usage.php") ?></div></div>
-		<div class="col-md-8"> <div class="brick"><?php include("bricks/temp_graph.php") ?></div></div>
+		<div class="col-md-8"> <div class="brick"><?php include("bricks/temp_graph_improved.php") ?></div></div>
 	</div>
 	<div class="row">
 	  <div class="col-md-4"> <div class="brick">.col-md-3</div></div>
