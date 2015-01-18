@@ -1,0 +1,94 @@
+#topbar {
+	margin-left: 170px;
+	background: white;
+}
+
+.container {
+	width: 100%;
+	box-sizing: border-box;
+	
+}
+
+.row {
+	width: 100%
+}
+#topbar .option {
+	cursor: hand;
+	text-align: center;
+	font-weight: 300;
+	font-size: 16px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.statrow {
+}
+
+.stat {
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.statRow .padFix {
+	padding-right: 0px;
+	padding-left: 0px;
+
+	background-color: rgb(41, 128, 185);
+	border: 7px solid rgb(41, 128, 185);
+	border-radius: 3px;
+
+
+}
+
+#topbar .selected {
+	border-bottom: 3px solid #34495e;
+	font-weight: 700;
+	color: #34495e;
+}
+
+#page {
+	margin-left: 170px;
+	background: white;
+	margin-top: 1px;
+}
+
+#page h1 {
+	color: rgb(149, 165, 166);
+	font-weight: 400;
+	font-size: 30px;
+}
+
+#page h2 {
+	color: #34495e;
+	font-weight: 700;
+	font-size: 17px;
+	text-transform: uppercase;
+	margin: 0px;
+}
+#page h2 .glyphicon{
+	font-weight: 300;
+}
+
+
+#page .value{
+	color: #ecf0f1;
+	font-weight: 300!important;
+	font-size: 26px;
+}
+
+#page .value .slash{
+	color: #3498db;
+	display: inline;
+	font-size: 20px;
+}
+
+@media (min-width: 1200px) {
+#topbar .option {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+}
