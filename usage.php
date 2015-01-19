@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Dashboard</title>
+	<title>Usage</title>
 	<link rel="icon" type="image/png" href="http://thermostat.ipieter.be/images/favicon.png">
 	
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
@@ -79,10 +79,12 @@ function requestData(date){
            tempchart.series[1].setData(data['tar']);		
            tempchart.series[0].setData(data['out']);
            dutychart.series[0].setData(data['duty']);
-           $("#inTemp").html(data['stats']['minT'] + "&deg<div class='slash'>/</div>" + data['stats']['maxT'] + "&deg");		
-           $("#outTemp").html(data['stats']['minTOut'] + "&deg<div class='slash'>/</div>" + data['stats']['maxTOut'] + "&deg");		
+           $("#inTemp").html(data['stats']['minT'] + "<div class='slash'>&deg/</div>" + data['stats']['maxT'] + "<div class='slash'>&deg</div>");		
+           $("#outTemp").html(data['stats']['minTOut'] + "<div class='slash'>&deg/</div>" + data['stats']['maxTOut'] + "<div class='slash'>&deg</div>");		
+		
 
            $("#cons").html(data['stats']['cons'] + " kWh");		
+           $("#rmse").html(data['stats']['rmse'] + " <div class='slash'>%</div>");		
 			
 	      },
 	error: function (request, xhr) {

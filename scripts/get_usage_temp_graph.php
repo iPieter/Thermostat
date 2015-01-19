@@ -39,6 +39,8 @@ $minTOut = 100;
 $maxTOut = 0;
 $consumption = 0;
 $lastTime = 0;
+$rmse = 0;
+$rmsecount = 0;
 /*
 $table['labels'] = array(
 
@@ -55,20 +57,22 @@ array('label' => 'Temperature', 'type' => 'number')
       if ($lastTime == 0) {
 	      $lastTime = $time_raw;
       }
-      
-      $data[] = array( $time_raw,round($r['T_cur'],1)); 
-      $data2[] = array( $time_raw,round($r['T_tar'],1)); 
-      $data4[] = array( $time_raw,round($r['P'],1)); 
+      $tcur = $r['T_cur'];
+      $ttar = $r['T_tar'];
+      $power = $r['P'];
+      $data[] = array( $time_raw,round($tcur,1)); 
+      $data2[] = array( $time_raw,round($ttar,1)); 
+      $data4[] = array( $time_raw,round($power,1)); 
       $tExt = round($r['T_ext'] -273.15,1);
       $data3[] = array( $time_raw,$tExt); 
       
       //calculcate min and max temp
-      if ($maxT < round($r['T_cur'],1)) {
-	      $maxT = round($r['T_cur'],1);
+      if ($maxT < round($tcur,1)) {
+	      $maxT = round($tcur,1);
       }
       
-      if ($minT > round($r['T_cur'],1)) {
-	      $minT = round($r['T_cur'],1);
+      if ($minT > round($tcur,1)) {
+	      $minT = round($tcur,1);
       }
       
       if ($maxTOut < $tExt) {
@@ -78,14 +82,21 @@ array('label' => 'Temperature', 'type' => 'number')
       if ($minTOut > $tExt) {
 	      $minTOut = $tExt;
       }
+      
+      //calculate rmse 
+      if ($r['mode'] != 0) {
+	      $rmse += pow(($ttar - $tcur),2);
+	      $rmsecount++;
+      }
 
       //calculate average power
-      $consumption += $r['P'] * ($time_raw - $lastTime)/ 3600000000;
+      $consumption += $power * ($time_raw - $lastTime)/ 3600000000;
       $lastTime = $time_raw;
     }
     
+$rmse = 1-sqrt($rmse/$rmsecount)/($maxT - $minT);
     
-$stats = array('minT' => $minT,'maxT' => $maxT,'cons' => round($consumption,1),'minTOut' => $minTOut,'maxTOut' => $maxTOut);
+$stats = array('minT' => $minT,'maxT' => $maxT,'cons' => round($consumption,1),'minTOut' => $minTOut,'maxTOut' => $maxTOut, 'rmse' => round($rmse*100,1));
 $table = array('cur' => $data,'tar' => $data2,'out' => $data3,'duty' => $data4,'stats' => $stats);
 // convert data into JSON format
 $jsonTable = json_encode($table);

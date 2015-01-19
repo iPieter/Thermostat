@@ -14,22 +14,22 @@ if (isset($_GET['interval'])) {
 <div class="stat col-sm-3 col-lg-2 col-lg-offset-2">
 <div class="padFix">
 	<h2><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Indoors</h2>
-	<div class="value" id="inTemp">13/17</div>
+	<div class="value" id="inTemp"></div>
 </div></div>
 <div class="stat col-sm-3 col-lg-2">
 <div class="padFix">
 	<h2><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Energy</h2>
-	<div class="value" id="cons">3.14 kWh</div>
+	<div class="value" id="cons"></div>
 </div></div>
 <div class="stat col-sm-3 col-lg-2">
 <div class="padFix">
 	<h2><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Outdoors</h2>
-	<div class="value" id="outTemp">12/13</div>
+	<div class="value" id="outTemp"></div>
 </div></div>
 <div class="stat col-sm-3 col-lg-2">
 <div class="padFix">
-	<h2><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> A number</h2>
-	<div class="value" id="RND">42</div>
+	<h2><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Score</h2>
+	<div class="value" id="rmse"></div>
 </div></div>
 </div>
 <h1>Temperature</h1>
