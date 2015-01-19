@@ -20,6 +20,7 @@
 
     // First we execute our common code to connection to the database and start the session 
     include "../scripts/common.php";
+    include "../scripts/datalogin.php";
      
     // This variable will be used to re-display the user's username to them in the 
     // login form if they fail to enter the correct password.  It is initialized here 
@@ -32,7 +33,23 @@
     } else {
     	$original_page = '';	    
     }
-     
+    
+    if(isset($_COOKIE['autoLogin'])) {
+  		$token = $_COOKIE['autoLogin'];
+		$sql = "SELECT * FROM `autologin` WHERE `token`='$token' AND `expires` > NOW();";
+		
+		$user = mysqli_query($con, $sql);
+		
+		if(mysqli_num_rows($user)) {
+			$row_user = mysqli_fetch_array($user);
+        	$_SESSION['user'] = $row_user;
+        
+        	header("Location: ../" . $original_page); 
+        	die("Redirecting to: ../". $original_page);  		
+		}
+    }
+    
+    
     // This if statement checks to determine whether the login form has been submitted 
     // If it has, then the login code is run, otherwise the form is displayed 
     if(!empty($_POST)) 
@@ -99,6 +116,37 @@
         // Otherwise, we display a login failed message and show the login form again 
         if($login_ok) 
         { 
+        	//set a cookie for autologin if the user check it
+        	if (isset($_POST["remember-me"])){
+        		//generate a random value to link the user to this computer
+
+        		$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
+				$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
+
+				$token =  bin2hex($iv);
+				$time = date('Y-m-d H:i:s',time()+ 1209600); //2 weeks
+	        	setcookie("autoLogin", $token, time()+ 1209600, "/");
+	        	
+	        	//get the ip
+	        	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+	        	    $ip = $_SERVER['HTTP_CLIENT_IP'];
+	        	} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+	        	    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	        	} else {
+	        	    $ip = $_SERVER['REMOTE_ADDR'];
+	        	}
+	        	
+	        	//save this in the database
+	        	$username= $row['username'];
+	        	
+	        	$sql = "INSERT INTO `autologin`(`token`, `ip`, `expires`, `username`) VALUES ('$token','$ip','$time','$username')";
+
+	        	mysqli_query($con, $sql);
+
+
+        	} 
+        	
+        	
             // Here I am preparing to store the $row array into the $_SESSION by 
             // removing the salt and password values from it.  Although $_SESSION is 
             // stored on the server-side, there is no reason to store sensitive values 
