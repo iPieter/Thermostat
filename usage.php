@@ -14,8 +14,9 @@
 
 	<script src="http://code.highcharts.com/highcharts.js"></script>
 	<script src="http://code.highcharts.com/modules/data.js"></script>
-	<script src="http://code.highcharts.com/modules/exporting.js"></script>
 
+	<script src="http://code.highcharts.com/highcharts-more.js"></script>
+	
 	<script src="js/bootstrap.js"></script>
 	<script src="js/chart.js"></script>
 </head>
@@ -24,6 +25,7 @@
 	<?php 
     // First we execute our common code to connection to the database and start the session 
     require("scripts/common.php"); 
+    require("scripts/datalogin.php"); 
      
     // At the top of the page we check to see whether the user is logged in or not 
     if(empty($_SESSION['user'])) 
@@ -37,18 +39,62 @@
     }
     
 	include("elements/sidebar/sidebar.php");
+	
+	//get all the devices the user gets access to
+	$user = mysqli_query($con,"SELECT id FROM users WHERE username = '$username' ");
+	$userRow = mysqli_fetch_array($user);
+	
+	$devices = mysqli_query($con,"SELECT * FROM devices WHERE user_id = " . $userRow['id']);
+	
+	$devicelist = "";
+	
+    foreach($devices as $deviceRow) {
+    	$devicelist =$devicelist . '<li role="presentation"><a role="menuitem" id='. $deviceRow['spark_id'] .' class="selector device" tabindex="-1" href="#">'. $deviceRow['location_name'] .'</a></li>'; 
+    }
+    
 	?>
+	<div class="page">
+	<div class="container">
+		
+		<div class="dropdown date">
+		<a role='button' href='#'  data-toggle='dropdown' class='dropdown-toggle'>
+		<h1 id="month">January</h1><h1><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>  </h1>  </a>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		    <li role="presentation"><a class="selector month" role="menuitem" tabindex="-1" href="#">January</a></li>
+		    <li role="presentation"><a class="selector month" role="menuitem" tabindex="-1" href="#">February</a></li>
+		  </ul>
+		</div>
+		
+		<div class="dropdown date">
+		<a role='button' href='#'  data-toggle='dropdown' class='dropdown-toggle'>
+		<h1 id="year">2015</h1><h1><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> </h1>  </a>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+		    <li role="presentation"><a class="selector year" role="menuitem" tabindex="-1" href="#">2015</a></li>
+		  </ul>
+		</div>
+		
+		<div class="dropdown">
+		<a role='button' href='#'  data-toggle='dropdown' class='dropdown-toggle'>
+		<h2 id="device">All Devices</h2> <h2> <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> </h2>  </a>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+		    <li role="presentation"><a role="menuitem" class="selector device" tabindex="-1" href="#">All Devices</a></li>
+		    <li role="presentation" class="divider"></li>
+		    <?php 
+		    //list all the devices the user gets access to
+		    	echo $devicelist;
+		    ?>
+		  </ul>
+		</div>			
+	</div></div>	
 	<div id="topbar"> <div class="container"> 
 	<div class="row"> 
-		<div id="today" class="option col-lg-1 col-lg-offset-2 col-sm-2 selected">Today</div>
-		<div id="yesterday" class="option col-lg-1 col-sm-2 ">Yesterday</div>
-		<div id="this_week" class="option col-lg-1 col-sm-2 ">This week</div>
-		<div id="week" class="option col-lg-1 col-sm-2 ">Last week</div>
-		<div id="this_month" class="option col-lg-1 col-sm-2 ">This month</div>
-		<div id="month" class="option col-lg-1 col-sm-2 ">Last month</div>
+		<div id="statistics" class="option col-lg-2 col-lg-offset-2 col-sm-3 selected">Statistics</div>
+		<div id="power" class="option col-lg-2 col-sm-3 ">Power Usage</div>
+		<div id="devices" class="option col-lg-2 col-sm-3 ">Devices</div>
+		<div id="history" class="option col-lg-2 col-sm-3 ">History</div>
 	</div></div></div>
 	
-	<div id="page" >
+	<div id="page" class="page">
 		<div class="container">
 			<?php include("scripts/usage.php");?>
 		</div>
@@ -57,34 +103,55 @@
 
 <script> 
 var tempchart, dutychart; 
+
+
 var tid = setInterval(requestData, 300000);
+
+$(window).load(function() {
+    $(".usage").addClass("hidden");
+    $("." + $(".selected").attr('id')).removeClass("hidden");
+
+});
+
 
 $(".option").click(function(event) {
     $(".option").removeClass("selected");
     $(this).addClass("selected");
-    
-    var theId = $(this).attr('id');
-    requestData(theId);
+
+    $(".usage").addClass("hidden");
+    $("." + $(this).attr('id')).removeClass("hidden");
+
 });
 
 
-function requestData(date){
+$(".selector").click(function(event) {
+	if ($(this).hasClass('month')) {
+		$('#month').html($(this).html());
+		
+	} else if ($(this).hasClass('year')) {
+		$('#year').html($(this).html());
+	} else if ($(this).hasClass('device')) {
+		$('#device').html($(this).html());
+	}
+    
+    requestData();
+});
+
+function requestData(){
     $.ajax({
-    url: 'http://thermostat.ipieter.be/scripts/get_usage_temp_graph.php',
+    url: 'http://thermostat.ipieter.be/scripts/get_usage_month.php',
 	dataType: 'json',
-	data: {'date': date},
+	data: {'month': $('#month').html(), 'year': $('#year').html()},
 	type: 'GET',
 	success: function(data){
-           tempchart.series[2].setData(data['cur']);		
-           tempchart.series[1].setData(data['tar']);		
-           tempchart.series[0].setData(data['out']);
-           dutychart.series[0].setData(data['duty']);
-           $("#inTemp").html(data['stats']['minT'] + "<div class='slash'>&deg/</div>" + data['stats']['maxT'] + "<div class='slash'>&deg</div>");		
-           $("#outTemp").html(data['stats']['minTOut'] + "<div class='slash'>&deg/</div>" + data['stats']['maxTOut'] + "<div class='slash'>&deg</div>");		
-		
-
-           $("#cons").html(data['stats']['cons'] + " kWh");		
-           $("#rmse").html(data['stats']['rmse'] + " <div class='slash'>%</div>");		
+           tempchart.series[0].setData(data['ind']);		
+           tempchart.series[1].setData(data['ind_range']);		
+           tempchart.series[2].setData(data['out']);
+           dutychart.series[0].setData(data['duty']);	
+           
+           $("#energy").html(data['stats']['energy'] + " <div class='slash'>kWh</div>");		
+           $("#inTemp").html(data['stats']['minT'] + " <div class='slash'>&degC/</div>" + data['stats']['maxT'] + " <div class='slash'>&degC</div>");		
+           $("#outTemp").html(data['stats']['minTOut'] + " <div class='slash'>&degC/</div>" + data['stats']['maxTOut'] + " <div class='slash'>&degC</div>");		
 			
 	      },
 	error: function (request, xhr) {
@@ -123,6 +190,9 @@ tempchart = new Highcharts.Chart({
 
      },
      exporting: { enabled: false },
+     credits: {
+    enabled: false
+    },
      
      title: {
          text: '',
@@ -140,6 +210,11 @@ tempchart = new Highcharts.Chart({
         type: 'datetime',
 
      },
+     tooltip: {
+            crosshairs: true,
+            shared: true,
+            valueSuffix: '°C'
+        },
      yAxis: {
         minPadding: 0.0,
             maxPadding: 0.0,
@@ -149,27 +224,32 @@ tempchart = new Highcharts.Chart({
             }
      },
      series: [{
-        name: 'Outdoors',
-        color: 'rgb(230, 126, 34)',        
-        data: [],
-            marker: {
-       enabled: false
-    }
-     },{
-        name: 'Target',
-        color: 'rgb(189, 195, 199)',        
-        data: [],
-            marker: {
-       enabled: false
-    }
-     },{
         name: 'Indoors',
         color: 'rgb(52, 73, 94)',
         data: [],
             marker: {
        enabled: false
     }
-     }]
+    },{
+        name: 'Indoor Range',
+        color: 'rgb(41, 128, 185)',        
+        data: [],
+        type: 'arearange',          
+        lineWidth: 0,
+        linkedTo: ':previous',
+        fillOpacity: 0.3,
+        marker: {
+       enabled: false
+    }
+     },{
+        name: 'Outdoors',
+        color: 'rgb(230, 126, 34)',        
+        data: [],
+            marker: {
+       enabled: false
+    }
+     }
+     ]
   });
   
   dutychart = new Highcharts.Chart({
@@ -177,7 +257,7 @@ tempchart = new Highcharts.Chart({
         renderTo: 'dutyHistDiv',
         type: 'spline',
         events: {
-            load: requestData('today')
+            load: requestData()
         }
      },
      exporting: { enabled: false },
@@ -194,6 +274,9 @@ tempchart = new Highcharts.Chart({
              display: 'none'
          }
      },
+     credits: {
+    enabled: false
+    },
      xAxis: {
         type: 'datetime',
 

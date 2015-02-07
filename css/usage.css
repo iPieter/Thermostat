@@ -3,16 +3,24 @@
 	background: white;
 }
 
+#body {
+	background-color: white;
+}
+
 .container {
 	width: 100%;
 	box-sizing: border-box;
+	margin-right: 0px;
 	
 }
 
 .row {
-	width: 100%
+	width: 100%;
+		box-sizing: border-box;
+
 }
 #topbar .option {
+
 	cursor: hand;
 	text-align: center;
 	font-weight: 300;
@@ -35,9 +43,8 @@
 .statRow .padFix {
 	padding-right: 0px;
 	padding-left: 0px;
-
-	background-color: rgb(41, 128, 185);
-	border: 7px solid rgb(41, 128, 185);
+	background-color: #34495e;
+	border: 2px solid #2c3e50;
 	border-radius: 3px;
 
 
@@ -49,46 +56,88 @@
 	color: #34495e;
 }
 
-#page {
+.page {
 	margin-left: 170px;
 	background: white;
 	margin-top: 1px;
 }
 
-#page h1 {
+
+
+.page .date{
+	display: inline-block;
+}
+
+.page .dropdown .dropdown-toggle {
+	display: inline-block;
+}
+
+.page h1 {	
+	color: rgb(52, 73, 94);
+	display: inline-block;
+	margin-bottom: 0px;
+
+}
+
+.page h2 {
+	display: inline-block;	
+	color: rgb(52, 73, 94);
+	font-size: 22px;
+	margin-top: 2px;
+
+}
+
+.page h1 .glyphicon {
+	font-size: 16px;
+	margin-right: 8px;	
+	color: rgb(149, 165, 166);
+}
+
+.page h2 .glyphicon {
+	font-size: 12px;
+	color: rgb(149, 165, 166);
+}
+
+
+.page h3 {
 	color: rgb(149, 165, 166);
 	font-weight: 400;
 	font-size: 30px;
 }
 
-#page h2 {
-	color: #34495e;
+.page h4 {
+	padding-left: 5px;
+	padding-top: 5px;
+	color: #bdc3c7;
 	font-weight: 700;
 	font-size: 17px;
 	text-transform: uppercase;
 	margin: 0px;
 }
-#page h2 .glyphicon{
+.page h2 .glyphicon{
 	font-weight: 300;
 }
 
 
-#page .value{
-	color: #ecf0f1;
+.page .value{
+	padding-left: 5px;
+	color: #bdc3c7;
 	font-weight: 300!important;
-	font-size: 26px;
+	font-size: 21px;
 }
 
-#page .value .slash{
-	color: #3498db;
+.page .value .slash{
+	color: #2c3e50;
 	display: inline;
-	font-size: 20px;
+	font-variant: 700!important;
+	font-size: 21px;
 }
+
 
 @media (min-width: 1200px) {
-#topbar .option {
-	padding-right: 15px;
-	padding-left: 15px;
+.statrow {
+	padding-right: 30px;
+	padding-left: 30px;
 }
 
 }

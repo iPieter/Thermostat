@@ -1,41 +1,37 @@
-<?php 
-
-
-if (isset($_GET['interval'])) {
-	$interval = $_GET['interval'];
-} else {
-	$interval = 'today';
-	
-}
-?>
-<h1>Statistics</h1>
+<div class="usage statistics">
 
 <div class="row statrow">
-<div class="stat col-sm-3 col-lg-2 col-lg-offset-2">
-<div class="padFix">
-	<h2><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Indoors</h2>
-	<div class="value" id="inTemp"></div>
-</div></div>
-<div class="stat col-sm-3 col-lg-2">
-<div class="padFix">
-	<h2><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Energy</h2>
-	<div class="value" id="cons"></div>
-</div></div>
-<div class="stat col-sm-3 col-lg-2">
-<div class="padFix">
-	<h2><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Outdoors</h2>
-	<div class="value" id="outTemp"></div>
-</div></div>
-<div class="stat col-sm-3 col-lg-2">
-<div class="padFix">
-	<h2><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Score</h2>
-	<div class="value" id="rmse"></div>
-</div></div>
+	<div class="stat col-sm-4">
+		<div class="padFix">
+			<h4><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Indoors</h4>
+			<div class="value" id="inTemp"></div>
+	</div></div>
+	<div class="stat col-sm-4 ">
+		<div class="padFix">
+			<h4><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Energy</h4>
+			<div class="value" id="energy"></div>
+	</div></div>
+	<div class="stat col-sm-4">
+		<div class="padFix">
+			<h4><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span> Outdoors</h4>
+			<div class="value" id="outTemp"></div>
+	</div></div>
 </div>
-<h1>Temperature</h1>
 
-<div id="tempHistDiv" style="min-width: 310px; height: 258px; margin: 0 auto"></div>
+	<h3>Temperature</h3>	
+	<div id="tempHistDiv" style="width: auto; height: 258px; margin: 0 auto"></div>
+</div>
 
-<h1>Duty Cycle</h1>
+<div class="usage power">
+	<h3>Duty Cycle</h3>
+	<div id="dutyHistDiv" style="width: auto; height: 258px; margin: 0 auto"></div>
+</div>
 
-<div id="dutyHistDiv" style="min-width: 310px; height: 258px; margin: 0 auto"></div>
+<div class="usage devices">
+	<h3>Registered Devices</h3>
+	
+<?php 
+//list all the devices the user gets access to
+    echo $devicelist;
+?>
+</div>

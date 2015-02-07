@@ -55,6 +55,11 @@
 
 }
 
+#sidebar .device {
+	font-weight: 700;
+	margin-left: 15px;
+}
+
 #sidebar #username .icon-arrow-down {
 	display: inline-block;
 	width: 16px;
