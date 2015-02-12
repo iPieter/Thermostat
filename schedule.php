@@ -8,7 +8,7 @@
 	
 	<link rel="stylesheet" type="text/css" href="css/schedule.css">
 	<link rel="stylesheet" type="text/css" href="css/sidebar.css">
-
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="js/bootstrap.js"></script>

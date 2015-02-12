@@ -2,7 +2,8 @@
 <head>
 	<title>Usage</title>
 	<link rel="icon" type="image/png" href="http://thermostat.ipieter.be/images/favicon.png">
-	
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">

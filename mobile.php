@@ -105,7 +105,7 @@ $mode = $json->result;
 	<div class="btn-group btn-group-lg settings" id="modes" role="group" aria-label="Mode selector">
 		<button type="button" id="btnAway" class="btn btn-default <?php if ($mode == 0) {echo 'active';} ?> "><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
 		<button type="button" id="btnHome" class="btn btn-default <?php if ($mode == 1) {echo 'active';}?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
-		<button type="button" id="btnSleep" class="btn btn-default <?php if ($mode == 2) {echo 'active';}?>"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></button>
+		<button type="button" id="btnSleep" class="btn btn-default <?php if ($mode == 2) {echo 'active';}?>"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
 	  </div>
 	
 	  <div class="input-group settings">
