@@ -53,6 +53,9 @@ $(document).ready(function () {
 			<li class="device">Thermostat</li>
 			<li <?php if (curPageName() == "usage.php") {echo "class='active'";} ?>><a href="<?php echo $baseurl?>usage.php" data-target="#"><span class="glyphicon glyphicon-stats"></span> Usage</a></li>
 			<hr>
+			<li class="device">Alarm Clock</li>
+			<li <?php if (curPageName() == "alarm.php") {echo "class='active'";} ?>><a href="<?php echo $baseurl?>alarm.php" data-target="#"><span class="glyphicon glyphicon-time"></span> Alarm</a></li>
+			<hr>
 		</ul>
 	</div>
 	

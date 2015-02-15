@@ -1,0 +1,24 @@
+body {
+	background-color: white;
+}
+
+.container {
+	width: 100%;
+	box-sizing: border-box;
+	margin-right: 0px;
+	
+}
+
+.row {
+	width: 100%;
+		box-sizing: border-box;
+
+}
+
+.page {
+	padding: 30px;
+	margin-left: 170px;
+	background: white;
+	margin-top: 1px;
+}
+
