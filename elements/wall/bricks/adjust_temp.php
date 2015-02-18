@@ -20,40 +20,7 @@ $row_device = mysqli_fetch_array($device);
 
 
 //get the current target temperature
-$my_access_token=$row_device['spark_token'];
 $my_device=$row_device['spark_id'];
-
-try {        
-//get the measured sum 
-//Warning: BLACK MAGIC, DO NOT TOUCH!
-$url="https://api.spark.io/v1/devices/$my_device/setpoint?access_token=$my_access_token";
-
-//  Initiate curl
-$ch = curl_init();
-// Disable SSL verification
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-// Will return the response, if false it print the response
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// Set the url
-curl_setopt($ch, CURLOPT_URL,$url);
-// Execute
-
-$result=curl_exec($ch);
-$json = json_decode($result);
-
-$setpoint = $json->result;
-
-$url="https://api.spark.io/v1/devices/$my_device/mode?access_token=$my_access_token";
-
-curl_setopt($ch, CURLOPT_URL,$url);
-$result=curl_exec($ch);
-$json = json_decode($result);
-
-$mode = $json->result;
-
-}catch (Exception $e) {
-	//include('cron.php');
-}
 ?>
 
 <div class="brickTop"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Temperature</div>
@@ -141,7 +108,10 @@ if (curValue < 34) {
  	doMethod('setTarget', curValue + 1);
 }});
 
-$(window).load(refresh());
+$(window).load(function() {
+refresh();
+refreshTarget();
+});
 
 var tid = setInterval(refresh, 5000);
 var curTemp;
@@ -217,8 +187,9 @@ function doMethod(method, data) {
 function refresh() {
 	
 	$.ajax({
-	url: 'scripts/get_temperature.php', 
-	data: "", 
+	url: 'scripts/get_temperature.php',
+	type: "GET",
+    data: {device: '<?php echo $row_device['spark_id'];?>'},
 	dataType: 'json',
 	success: function(data){
 			var tarTemp = parseInt($input.val());
@@ -244,7 +215,8 @@ function refreshTarget() {
 	
 	$.ajax({
 	url: 'scripts/get_target.php', 
-	data: "", 
+	type: "GET",
+    data: {device: '<?php echo $row_device['spark_id'];?>'},
 	dataType: 'json',
 	success: function(data){
 			$input.val(data.T);

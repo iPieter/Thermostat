@@ -47,46 +47,19 @@ $accesslevel = mysqli_query($con, "SELECT * FROM users WHERE `users`.`username` 
 $row_accesslevel = mysqli_fetch_array($accesslevel);
 
 if ($row_accesslevel['accesslevel'] == 'viewer') {
-        header("Location: mobile_view.php"); 
+	header("Location: account/login.php?r=index.php"); 
 
-        die("Redirecting to mobile_view.php"); }
-
-
-//get the current target temperature
-$my_access_token="ed12140a298d303849276bf9f204113269a44f2e";
-$my_device="53ff6f065067544809431287";
-
-try {        
-//get the measured sum 
-//Warning: BLACK MAGIC, DO NOT TOUCH!
-$url="https://api.spark.io/v1/devices/$my_device/setpoint?access_token=$my_access_token";
-
-//  Initiate curl
-$ch = curl_init();
-// Disable SSL verification
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-// Will return the response, if false it print the response
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// Set the url
-curl_setopt($ch, CURLOPT_URL,$url);
-// Execute
-
-$result=curl_exec($ch);
-$json = json_decode($result);
-
-$setpoint = $json->result;
-
-$url="https://api.spark.io/v1/devices/$my_device/mode?access_token=$my_access_token";
-
-curl_setopt($ch, CURLOPT_URL,$url);
-$result=curl_exec($ch);
-$json = json_decode($result);
-
-$mode = $json->result;
-
-}catch (Exception $e) {
-	//include('cron.php');
+	die("Redirecting to account/login.php?r=index.php"); 
 }
+
+$user_id = $row_accesslevel['id'];
+
+$device = mysqli_query($con, "SELECT * FROM devices WHERE `devices`.`user_id` = $user_id;");
+$row_device = mysqli_fetch_array($device);
+
+$my_device=$row_device['spark_id'];
+
+
 
 ?>
 
@@ -153,25 +126,6 @@ $input = $("#temperature");
 	var canvas = document.getElementById("tempCanvas");
 	var context = canvas.getContext("2d");
 	
-function refreshTarget() {
-	
-	$.ajax({
-	url: 'scripts/get_target.php', 
-	data: "", 
-	dataType: 'json',
-	success: function(data){
-			$input.val(data.T);
-	        
-	        redraw(tarTemp);		
-
-			
-	      },
-	error: function (request, xhr) {
-	}
-	});
-	
-	
-}
 
 window.addEventListener("load",function() {
 	// Set a timeout...
@@ -225,7 +179,10 @@ if (curValue < 34) {
  	doMethod('setTarget', curValue + 1);
 }});
 
-$(window).load(refresh());
+$(window).load(function() {
+refresh();
+refreshTarget();
+});
 
 var tid = setInterval(refresh, 5000);
 var curTemp;
@@ -305,8 +262,9 @@ function doMethod(method, data) {
 function refresh() {
 	
 	$.ajax({
-	url: 'scripts/get_temperature.php', 
-	data: "", 
+	url: 'scripts/get_temperature.php',
+	type: "GET",
+    data: {device: '<?php echo $row_device['spark_id'];?>'},
 	dataType: 'json',
 	success: function(data){
 			var tarTemp = parseInt($input.val());
@@ -332,7 +290,8 @@ function refreshTarget() {
 	
 	$.ajax({
 	url: 'scripts/get_target.php', 
-	data: "", 
+	type: "GET",
+    data: {device: '<?php echo $row_device['spark_id'];?>'},
 	dataType: 'json',
 	success: function(data){
 			$input.val(data.T);
