@@ -1,4 +1,4 @@
-<html>
+<html manifest="scripts/mobile.manifest">
 <head>
 	<title>Temperature</title>
 	
@@ -7,13 +7,12 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	
 	<link rel="stylesheet" type="text/css" href="css/mobile.css">
-	<link rel="stylesheet" type="text/css" href="css/sidebar.css">
 
 <meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="viewport"
   content="width=device-width,
   minimum-scale=1.0, maximum-scale=1.0" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="#34495e">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 </head>
