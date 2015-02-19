@@ -28,10 +28,16 @@ $result=curl_exec($ch);
 $json = json_decode($result);
 $target = $json->result;
 
+$url="https://api.spark.io/v1/devices/$my_device/mode?access_token=$my_access_token";
 
+curl_setopt($ch, CURLOPT_URL,$url);
+$result=curl_exec($ch);
+$json = json_decode($result);
+
+$mode = $json->result;
 
 //encode to json and show on the page
-$d = array('T' => $target);
+$d = array('T' => $target, 'mode' => $mode);
 
 echo json_encode($d);
 }

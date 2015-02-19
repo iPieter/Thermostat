@@ -37,9 +37,11 @@ $my_device=$row_device['spark_id'];
     </div>
     
 	<div class="btn-group btn-group-lg settings" id="modes" role="group" aria-label="Mode selector">
-		<button type="button" id="btnAway" class="btn btn-default <?php if ($mode == 0) {echo 'active';} ?> "><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
-		<button type="button" id="btnHome" class="btn btn-default <?php if ($mode == 1) {echo 'active';}?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
-		<button type="button" id="btnSleep" class="btn btn-default <?php if ($mode == 2) {echo 'active';}?>"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
+
+		<button type="button" id="btn4" class="btn btn-default"><span class="glyphicon glyphicon-ice-lolly" aria-hidden="true"></button>
+		<button type="button" id="btn1" class="btn btn-default"><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
+		<button type="button" id="btn2" class="btn btn-default"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
+		<button type="button" id="btn3" class="btn btn-default"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
 	  </div>
 	  
 	  <div class="input-group settings">
@@ -58,31 +60,36 @@ $my_device=$row_device['spark_id'];
 
 <script>
 
-$("#btnAway").click(function() {
+$("#btn1").click(function() {
  	doMethod('setMode', "away");
- 	$("#btnAway").addClass("active");
- 	$("#btnHome").removeClass("active");
- 	$("#btnSleep").removeClass("active");
- 	$input.val(8);
-	redraw(8);	
+ 	$(".btn").removeClass("active");
+ 	$("#btn1").addClass("active");
+ 	$input.val(14);
+	redraw(14);	
 });
 
-$("#btnHome").click(function() {
+$("#btn2").click(function() {
  	doMethod('setMode', "home");
- 	$("#btnHome").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnSleep").removeClass("active");
+ 	$(".btn").removeClass("active");
+ 	$("#btn2").addClass("active");
   	$input.val(21);
 	redraw(21);	
 });
 
-$("#btnSleep").click(function() {
+$("#btn3").click(function() {
  	doMethod('setMode', "sleep");
- 	$("#btnSleep").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnHome").removeClass("active");
- 	$input.val(16);
-	redraw(16); 	
+ 	$(".btn").removeClass("active");
+ 	$("#btn3").addClass("active");
+ 	$input.val(18);
+	redraw(18); 	
+});
+
+$("#btn4").click(function() {
+ 	doMethod('setMode', "freeze");
+ 	$(".btn").removeClass("active");
+ 	$("#btn4").addClass("active");
+ 	$input.val(8);
+	redraw(8);	
 });
 
 $input = $("#temperature");
@@ -118,14 +125,11 @@ var curTemp;
 
 var coreID = '53ff6f065067544809431287';
 var apiToken = 'ed12140a298d303849276bf9f204113269a44f2e';
+var canvas = document.getElementById("tempCanvas");
+var context = canvas.getContext("2d");
 
 function redraw(tarTemp) {
-	
-	var canvas = document.getElementById("tempCanvas");
-	var context = canvas.getContext("2d");
-	
-
-	
+		
 	var tarTempAngle = 20/360 * Math.PI * (Math.max(Math.min(tarTemp,34),8) - 30);
     var curTempAngle = 20/360 * Math.PI * (Math.max(Math.min(curTemp,34),8) - 30);
     
@@ -203,6 +207,7 @@ function refresh() {
 	      },
 	error: function (request, xhr) {
 	    context.clearRect(0, 0, canvas.width, canvas.height);
+	    context.textAlign = 'center';
 	  	context.font = '50pt Open Sans';
 	    context.fillText( ":'(", 146, 160);
 	}
@@ -221,11 +226,21 @@ function refreshTarget() {
 	success: function(data){
 			$input.val(data.T);
 	        
+	        //also set the right modes
+	         	$(".btn").removeClass("active");
+	         	$("#btn" + data.mode).addClass("active");
+	        
 	        redraw(tarTemp);		
 
 			
 	      },
 	error: function (request, xhr) {
+	    context.clearRect(0, 0, canvas.width, canvas.height);
+	    context.textAlign = 'center';
+	  	context.font = '50pt Open Sans';
+	    context.fillText( ":'(", 146, 160);
+	  	context.font = '14pt Open Sans';
+
 	}
 	});
 	

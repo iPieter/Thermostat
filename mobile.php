@@ -75,9 +75,10 @@ $my_device=$row_device['spark_id'];
 
 	  <div class="col-md-6 "> <div class="brick"><div class="tempKol" id="mode"> 
 	<div class="btn-group btn-group-lg settings" id="modes" role="group" aria-label="Mode selector">
-		<button type="button" id="btnAway" class="btn btn-default <?php if ($mode == 0) {echo 'active';} ?> "><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
-		<button type="button" id="btnHome" class="btn btn-default <?php if ($mode == 1) {echo 'active';}?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
-		<button type="button" id="btnSleep" class="btn btn-default <?php if ($mode == 2) {echo 'active';}?>"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
+		<button type="button" id="btn4" class="btn btn-default"><span class="glyphicon glyphicon-ice-lolly" aria-hidden="true"></button>
+		<button type="button" id="btn1" class="btn btn-default"><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
+		<button type="button" id="btn2" class="btn btn-default"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
+		<button type="button" id="btn3" class="btn btn-default"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
 	  </div>
 	
 	  <div class="input-group settings">
@@ -94,31 +95,36 @@ $my_device=$row_device['spark_id'];
 
 </div>
 <script>
-$("#btnAway").click(function() {
+$("#btn1").click(function() {
  	doMethod('setMode', "away");
- 	$("#btnAway").addClass("active");
- 	$("#btnHome").removeClass("active");
- 	$("#btnSleep").removeClass("active");
- 	$input.val(8);
-	redraw(8); 	
+ 	$(".btn").removeClass("active");
+ 	$("#btn1").addClass("active");
+ 	$input.val(14);
+	redraw(14);	
 });
 
-$("#btnHome").click(function() {
+$("#btn2").click(function() {
  	doMethod('setMode', "home");
- 	$("#btnHome").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnSleep").removeClass("active");
- 	$input.val(21);
-	redraw(21); 	
+ 	$(".btn").removeClass("active");
+ 	$("#btn2").addClass("active");
+  	$input.val(21);
+	redraw(21);	
 });
 
-$("#btnSleep").click(function() {
+$("#btn3").click(function() {
  	doMethod('setMode', "sleep");
- 	$("#btnSleep").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnHome").removeClass("active");
- 	$input.val(16);
-	redraw(16); 	
+ 	$(".btn").removeClass("active");
+ 	$("#btn3").addClass("active");
+ 	$input.val(18);
+	redraw(18); 	
+});
+
+$("#btn4").click(function() {
+ 	doMethod('setMode', "freeze");
+ 	$(".btn").removeClass("active");
+ 	$("#btn4").addClass("active");
+ 	$input.val(8);
+	redraw(8);	
 });
 
 $input = $("#temperature");
