@@ -38,7 +38,7 @@ $my_device=$row_device['spark_id'];
     
 	<div class="btn-group btn-group-lg settings" id="modes" role="group" aria-label="Mode selector">
 
-		<button type="button" id="btn4" class="btn btn-default"><span class="glyphicon glyphicon-ice-lolly" aria-hidden="true"></button>
+		<button type="button" id="btn4" class="btn btn-default"><span class="glyphicon glyphicon-ice-lolly-tasted" aria-hidden="true"></button>
 		<button type="button" id="btn1" class="btn btn-default"><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
 		<button type="button" id="btn2" class="btn btn-default"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
 		<button type="button" id="btn3" class="btn btn-default"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
@@ -228,7 +228,7 @@ function refreshTarget() {
 	        
 	        //also set the right modes
 	         	$(".btn").removeClass("active");
-	         	$("#btn" + data.mode).addClass("active");
+	         	$("#btn" + (data.mode + 1)).addClass("active");
 	        
 	        redraw(tarTemp);		
 
