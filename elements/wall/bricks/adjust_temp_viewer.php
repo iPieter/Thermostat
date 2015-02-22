@@ -1,6 +1,6 @@
 <?php 
 //get the current target temperature
-$my_access_token="ed12140a298d303849276bf9f204113269a44f2e";
+$my_access_token="5bc1575611ed15c482918776e7d63e2ab8478f06";
 $my_device="53ff6f065067544809431287";
 
 try {        
@@ -77,7 +77,7 @@ var tid = setInterval(refresh, 5000);
 var curTemp;
 
 var coreID = '53ff6f065067544809431287';
-var apiToken = 'ed12140a298d303849276bf9f204113269a44f2e';
+var apiToken = '5bc1575611ed15c482918776e7d63e2ab8478f06';
 
 function redraw(tarTemp) {
 	

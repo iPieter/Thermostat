@@ -77,7 +77,7 @@ $("#btn2").click(function() {
 });
 
 $("#btn3").click(function() {
- 	doMethod('setMode', "sleep");
+ 	doMethod('setMode', "autoSleep");
  	$(".btn").removeClass("active");
  	$("#btn3").addClass("active");
  	$input.val(18);
@@ -124,7 +124,7 @@ var tid = setInterval(refresh, 5000);
 var curTemp;
 
 var coreID = '53ff6f065067544809431287';
-var apiToken = 'ed12140a298d303849276bf9f204113269a44f2e';
+var apiToken = '5bc1575611ed15c482918776e7d63e2ab8478f06';
 var canvas = document.getElementById("tempCanvas");
 var context = canvas.getContext("2d");
 
