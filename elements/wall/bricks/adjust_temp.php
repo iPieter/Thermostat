@@ -20,40 +20,7 @@ $row_device = mysqli_fetch_array($device);
 
 
 //get the current target temperature
-$my_access_token=$row_device['spark_token'];
 $my_device=$row_device['spark_id'];
-
-try {        
-//get the measured sum 
-//Warning: BLACK MAGIC, DO NOT TOUCH!
-$url="https://api.spark.io/v1/devices/$my_device/setpoint?access_token=$my_access_token";
-
-//  Initiate curl
-$ch = curl_init();
-// Disable SSL verification
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-// Will return the response, if false it print the response
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// Set the url
-curl_setopt($ch, CURLOPT_URL,$url);
-// Execute
-
-$result=curl_exec($ch);
-$json = json_decode($result);
-
-$setpoint = $json->result;
-
-$url="https://api.spark.io/v1/devices/$my_device/mode?access_token=$my_access_token";
-
-curl_setopt($ch, CURLOPT_URL,$url);
-$result=curl_exec($ch);
-$json = json_decode($result);
-
-$mode = $json->result;
-
-}catch (Exception $e) {
-	//include('cron.php');
-}
 ?>
 
 <div class="brickTop"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Temperature</div>
@@ -70,9 +37,11 @@ $mode = $json->result;
     </div>
     
 	<div class="btn-group btn-group-lg settings" id="modes" role="group" aria-label="Mode selector">
-		<button type="button" id="btnAway" class="btn btn-default <?php if ($mode == 0) {echo 'active';} ?> "><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
-		<button type="button" id="btnHome" class="btn btn-default <?php if ($mode == 1) {echo 'active';}?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
-		<button type="button" id="btnSleep" class="btn btn-default <?php if ($mode == 2) {echo 'active';}?>"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
+
+		<button type="button" id="btn4" class="btn btn-default"><span class="glyphicon glyphicon-ice-lolly-tasted" aria-hidden="true"></button>
+		<button type="button" id="btn1" class="btn btn-default"><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
+		<button type="button" id="btn2" class="btn btn-default"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
+		<button type="button" id="btn3" class="btn btn-default"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
 	  </div>
 	  
 	  <div class="input-group settings">
@@ -91,31 +60,36 @@ $mode = $json->result;
 
 <script>
 
-$("#btnAway").click(function() {
+$("#btn1").click(function() {
  	doMethod('setMode', "away");
- 	$("#btnAway").addClass("active");
- 	$("#btnHome").removeClass("active");
- 	$("#btnSleep").removeClass("active");
- 	$input.val(8);
-	redraw(8);	
+ 	$(".btn").removeClass("active");
+ 	$("#btn1").addClass("active");
+ 	$input.val(14);
+	redraw(14);	
 });
 
-$("#btnHome").click(function() {
+$("#btn2").click(function() {
  	doMethod('setMode', "home");
- 	$("#btnHome").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnSleep").removeClass("active");
+ 	$(".btn").removeClass("active");
+ 	$("#btn2").addClass("active");
   	$input.val(21);
 	redraw(21);	
 });
 
-$("#btnSleep").click(function() {
- 	doMethod('setMode', "sleep");
- 	$("#btnSleep").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnHome").removeClass("active");
- 	$input.val(16);
-	redraw(16); 	
+$("#btn3").click(function() {
+ 	doMethod('setMode', "autoSleep");
+ 	$(".btn").removeClass("active");
+ 	$("#btn3").addClass("active");
+ 	$input.val(18);
+	redraw(18); 	
+});
+
+$("#btn4").click(function() {
+ 	doMethod('setMode', "freeze");
+ 	$(".btn").removeClass("active");
+ 	$("#btn4").addClass("active");
+ 	$input.val(8);
+	redraw(8);	
 });
 
 $input = $("#temperature");
@@ -141,21 +115,21 @@ if (curValue < 34) {
  	doMethod('setTarget', curValue + 1);
 }});
 
-$(window).load(refresh());
+$(window).load(function() {
+refresh();
+refreshTarget();
+});
 
 var tid = setInterval(refresh, 5000);
 var curTemp;
 
 var coreID = '53ff6f065067544809431287';
-var apiToken = 'ed12140a298d303849276bf9f204113269a44f2e';
+var apiToken = '5bc1575611ed15c482918776e7d63e2ab8478f06';
+var canvas = document.getElementById("tempCanvas");
+var context = canvas.getContext("2d");
 
 function redraw(tarTemp) {
-	
-	var canvas = document.getElementById("tempCanvas");
-	var context = canvas.getContext("2d");
-	
-
-	
+		
 	var tarTempAngle = 20/360 * Math.PI * (Math.max(Math.min(tarTemp,34),8) - 30);
     var curTempAngle = 20/360 * Math.PI * (Math.max(Math.min(curTemp,34),8) - 30);
     
@@ -217,8 +191,9 @@ function doMethod(method, data) {
 function refresh() {
 	
 	$.ajax({
-	url: 'scripts/get_temperature.php', 
-	data: "", 
+	url: 'scripts/get_temperature.php',
+	type: "GET",
+    data: {device: '<?php echo $row_device['spark_id'];?>'},
 	dataType: 'json',
 	success: function(data){
 			var tarTemp = parseInt($input.val());
@@ -232,6 +207,7 @@ function refresh() {
 	      },
 	error: function (request, xhr) {
 	    context.clearRect(0, 0, canvas.width, canvas.height);
+	    context.textAlign = 'center';
 	  	context.font = '50pt Open Sans';
 	    context.fillText( ":'(", 146, 160);
 	}
@@ -244,16 +220,27 @@ function refreshTarget() {
 	
 	$.ajax({
 	url: 'scripts/get_target.php', 
-	data: "", 
+	type: "GET",
+    data: {device: '<?php echo $row_device['spark_id'];?>'},
 	dataType: 'json',
 	success: function(data){
 			$input.val(data.T);
+	        
+	        //also set the right modes
+	         	$(".btn").removeClass("active");
+	         	$("#btn" + (data.mode + 1)).addClass("active");
 	        
 	        redraw(tarTemp);		
 
 			
 	      },
 	error: function (request, xhr) {
+	    context.clearRect(0, 0, canvas.width, canvas.height);
+	    context.textAlign = 'center';
+	  	context.font = '50pt Open Sans';
+	    context.fillText( ":'(", 146, 160);
+	  	context.font = '14pt Open Sans';
+
 	}
 	});
 	

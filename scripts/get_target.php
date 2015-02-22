@@ -1,12 +1,12 @@
 <?php
 
 include('datalogin.php');
-$my_access_token="ed12140a298d303849276bf9f204113269a44f2e";
-$my_device="53ff6f065067544809431287";
+$my_device=$_GET['device'];
 
-$max_samples = 10;
-$maxU = 3.3;
-$bits = 4096;
+$device = mysqli_query($con, "SELECT * FROM `devices` WHERE `spark_id`='$my_device'");
+$row_device = mysqli_fetch_array($device);
+
+$my_access_token=$row_device['spark_token'];
 
 
 try {        
@@ -28,10 +28,16 @@ $result=curl_exec($ch);
 $json = json_decode($result);
 $target = $json->result;
 
+$url="https://api.spark.io/v1/devices/$my_device/mode?access_token=$my_access_token";
 
+curl_setopt($ch, CURLOPT_URL,$url);
+$result=curl_exec($ch);
+$json = json_decode($result);
+
+$mode = $json->result;
 
 //encode to json and show on the page
-$d = array('T' => $target);
+$d = array('T' => $target, 'mode' => $mode);
 
 echo json_encode($d);
 }
