@@ -1,4 +1,4 @@
-<html>
+<html manifest="scripts/mobile.manifest">
 <head>
 	<title>Temperature</title>
 	
@@ -7,13 +7,12 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	
 	<link rel="stylesheet" type="text/css" href="css/mobile.css">
-	<link rel="stylesheet" type="text/css" href="css/sidebar.css">
 
 <meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="viewport"
   content="width=device-width,
   minimum-scale=1.0, maximum-scale=1.0" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="#34495e">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 </head>
@@ -47,46 +46,19 @@ $accesslevel = mysqli_query($con, "SELECT * FROM users WHERE `users`.`username` 
 $row_accesslevel = mysqli_fetch_array($accesslevel);
 
 if ($row_accesslevel['accesslevel'] == 'viewer') {
-        header("Location: mobile_view.php"); 
+	header("Location: account/login.php?r=index.php"); 
 
-        die("Redirecting to mobile_view.php"); }
-
-
-//get the current target temperature
-$my_access_token="ed12140a298d303849276bf9f204113269a44f2e";
-$my_device="53ff6f065067544809431287";
-
-try {        
-//get the measured sum 
-//Warning: BLACK MAGIC, DO NOT TOUCH!
-$url="https://api.spark.io/v1/devices/$my_device/setpoint?access_token=$my_access_token";
-
-//  Initiate curl
-$ch = curl_init();
-// Disable SSL verification
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-// Will return the response, if false it print the response
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// Set the url
-curl_setopt($ch, CURLOPT_URL,$url);
-// Execute
-
-$result=curl_exec($ch);
-$json = json_decode($result);
-
-$setpoint = $json->result;
-
-$url="https://api.spark.io/v1/devices/$my_device/mode?access_token=$my_access_token";
-
-curl_setopt($ch, CURLOPT_URL,$url);
-$result=curl_exec($ch);
-$json = json_decode($result);
-
-$mode = $json->result;
-
-}catch (Exception $e) {
-	//include('cron.php');
+	die("Redirecting to account/login.php?r=index.php"); 
 }
+
+$user_id = $row_accesslevel['id'];
+
+$device = mysqli_query($con, "SELECT * FROM devices WHERE `devices`.`user_id` = $user_id;");
+$row_device = mysqli_fetch_array($device);
+
+$my_device=$row_device['spark_id'];
+
+
 
 ?>
 
@@ -103,9 +75,10 @@ $mode = $json->result;
 
 	  <div class="col-md-6 "> <div class="brick"><div class="tempKol" id="mode"> 
 	<div class="btn-group btn-group-lg settings" id="modes" role="group" aria-label="Mode selector">
-		<button type="button" id="btnAway" class="btn btn-default <?php if ($mode == 0) {echo 'active';} ?> "><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
-		<button type="button" id="btnHome" class="btn btn-default <?php if ($mode == 1) {echo 'active';}?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
-		<button type="button" id="btnSleep" class="btn btn-default <?php if ($mode == 2) {echo 'active';}?>"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
+		<button type="button" id="btn4" class="btn btn-default"><span class="glyphicon glyphicon-ice-lolly" aria-hidden="true"></button>
+		<button type="button" id="btn1" class="btn btn-default"><span class="glyphicon glyphicon-road" aria-hidden="true"></button>
+		<button type="button" id="btn2" class="btn btn-default"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
+		<button type="button" id="btn3" class="btn btn-default"><span class="glyphicon glyphicon-bed" aria-hidden="true"></button>
 	  </div>
 	
 	  <div class="input-group settings">
@@ -122,56 +95,42 @@ $mode = $json->result;
 
 </div>
 <script>
-$("#btnAway").click(function() {
+$("#btn1").click(function() {
  	doMethod('setMode', "away");
- 	$("#btnAway").addClass("active");
- 	$("#btnHome").removeClass("active");
- 	$("#btnSleep").removeClass("active");
- 	$input.val(8);
-	redraw(8); 	
+ 	$(".btn").removeClass("active");
+ 	$("#btn1").addClass("active");
+ 	$input.val(14);
+	redraw(14);	
 });
 
-$("#btnHome").click(function() {
+$("#btn2").click(function() {
  	doMethod('setMode', "home");
- 	$("#btnHome").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnSleep").removeClass("active");
- 	$input.val(21);
-	redraw(21); 	
+ 	$(".btn").removeClass("active");
+ 	$("#btn2").addClass("active");
+  	$input.val(21);
+	redraw(21);	
 });
 
-$("#btnSleep").click(function() {
- 	doMethod('setMode', "sleep");
- 	$("#btnSleep").addClass("active");
- 	$("#btnAway").removeClass("active");
- 	$("#btnHome").removeClass("active");
- 	$input.val(16);
-	redraw(16); 	
+$("#btn3").click(function() {
+ 	doMethod('setMode', "autoSleep");
+ 	$(".btn").removeClass("active");
+ 	$("#btn3").addClass("active");
+ 	$input.val(18);
+	redraw(18); 	
+});
+
+$("#btn4").click(function() {
+ 	doMethod('setMode', "freeze");
+ 	$(".btn").removeClass("active");
+ 	$("#btn4").addClass("active");
+ 	$input.val(8);
+	redraw(8);	
 });
 
 $input = $("#temperature");
 	var canvas = document.getElementById("tempCanvas");
 	var context = canvas.getContext("2d");
 	
-function refreshTarget() {
-	
-	$.ajax({
-	url: 'scripts/get_target.php', 
-	data: "", 
-	dataType: 'json',
-	success: function(data){
-			$input.val(data.T);
-	        
-	        redraw(tarTemp);		
-
-			
-	      },
-	error: function (request, xhr) {
-	}
-	});
-	
-	
-}
 
 window.addEventListener("load",function() {
 	// Set a timeout...
@@ -225,13 +184,16 @@ if (curValue < 34) {
  	doMethod('setTarget', curValue + 1);
 }});
 
-$(window).load(refresh());
+$(window).load(function() {
+refresh();
+refreshTarget();
+});
 
 var tid = setInterval(refresh, 5000);
 var curTemp;
 
 var coreID = '53ff6f065067544809431287';
-var apiToken = 'ed12140a298d303849276bf9f204113269a44f2e';
+var apiToken = '5bc1575611ed15c482918776e7d63e2ab8478f06';
 
 function redraw(tarTemp) {
 		
@@ -305,8 +267,9 @@ function doMethod(method, data) {
 function refresh() {
 	
 	$.ajax({
-	url: 'scripts/get_temperature.php', 
-	data: "", 
+	url: 'scripts/get_temperature.php',
+	type: "GET",
+    data: {device: '<?php echo $row_device['spark_id'];?>'},
 	dataType: 'json',
 	success: function(data){
 			var tarTemp = parseInt($input.val());
@@ -332,7 +295,8 @@ function refreshTarget() {
 	
 	$.ajax({
 	url: 'scripts/get_target.php', 
-	data: "", 
+	type: "GET",
+    data: {device: '<?php echo $row_device['spark_id'];?>'},
 	dataType: 'json',
 	success: function(data){
 			$input.val(data.T);

@@ -34,6 +34,9 @@ chart = new Highcharts.Chart({
         }
      },
      exporting: { enabled: false },
+     credits: {
+    enabled: false
+    },
      
      title: {
          text: '',
@@ -47,6 +50,11 @@ chart = new Highcharts.Chart({
              display: 'none'
          }
      },
+     tooltip: {
+            crosshairs: true,
+            shared: true,
+            valueSuffix: '°C'
+        },
      xAxis: {
         type: 'datetime',
 
@@ -61,7 +69,7 @@ chart = new Highcharts.Chart({
      },
      series: [{
         name: 'Target',
-        color: 'rgb(189, 195, 199)',        
+        color: 'rgb(230, 126, 34)',        
         data: [],
      },{
         name: 'Temperature',
