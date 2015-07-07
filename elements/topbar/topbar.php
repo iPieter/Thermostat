@@ -8,13 +8,12 @@
       <ul class="nav navbar-nav">
         <li class="dropdown" id="add"><a id="btn" href="#" href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-plus"></span> Add</a>
           <ul class="dropdown-menu">
-            <li><a href="<?php echo $baseurl?>devices/add_device.php">Add new device</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li><a href="<?php echo $baseurl?>devices/add_file.php">Add new file</a></li>
+            <li><a href="<?php echo $baseurl?>devices/add_file.php">Add new folder</a></li>
             <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <li><a href="#">Manage folders</a></li>
             <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <li><a href="#">Manage locations</a></li>
           </ul>
         </li>
       </ul>

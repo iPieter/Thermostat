@@ -77,7 +77,7 @@ $("#btn2").click(function() {
 });
 
 $("#btn3").click(function() {
- 	doMethod('setMode', "autoSleep");
+ 	doMethod('setMode', "sleep");
  	$(".btn").removeClass("active");
  	$("#btn3").addClass("active");
  	$input.val(18);

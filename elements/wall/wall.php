@@ -4,7 +4,6 @@
 		    include("scripts/datalogin.php"); 
 		    
 		    //check the users access level
-		    $username = htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8');
 		    $accesslevel = mysqli_query($con, "SELECT * FROM users WHERE `users`.`username` = '$username';");
 		    $row_accesslevel = mysqli_fetch_array($accesslevel);
 

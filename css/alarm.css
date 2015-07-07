@@ -16,9 +16,107 @@ body {
 }
 
 .page {
-	padding: 30px;
+	padding: 0 0 30 0px;
 	margin-left: 170px;
-	background: white;
-	margin-top: 1px;
+	background: white;/*rgb(236, 240, 241);*/
+	margin-top: 0px;
 }
 
+#wall div {
+	padding: 0px;
+}
+
+#wall .row {
+}
+
+#wall .brick {
+	background-color: #fff;
+	position: relative;
+	z-index: auto;
+	/*padding: 2px;*/
+	height: 292px;
+	border: 1px solid rgb(215,218,219);
+	border-radius: 3px;
+	margin: 3px;
+}
+
+#wall .mockup {
+	padding-top: 10px;
+	padding-left: 5px;
+	height: 192px;
+}
+
+#wall .mockup div {
+	height: 100%;
+	border: 3px dashed rgb(236, 240, 241);
+}
+
+#wall h1 {
+	margin: 5px;
+	font-size: 16px;
+	font-weight: 600;
+	color: rgb(52, 73, 94);
+	text-transform: uppercase;
+	display: inline-block;
+	position: relative;
+	margin-right: 3px;
+}
+
+#wall h2 {
+	margin-top: 5px;
+	margin-bottom: 2px;
+	font-size: 16px;
+	font-weight: 300;
+	color: rgb(52, 73, 94);
+	display: inline-block;
+	position: relative;
+}
+
+#wall .dropdown {
+	display: inline-block;
+	position: relative;
+}
+
+#wall a:hover, a:focus {
+	
+}
+
+#wall .brickTop {
+	background-color: #34495f; /*e74c3c*/
+	border-bottom: 3px solid #2c3e50; /*c0392b */
+	text-align: center;
+	text-transform: capitalize;
+	font-size: 18px;
+	color: #fff;
+	padding: 3px;
+	
+}
+
+#wall .brickTop .glyphicon {
+	font-size: 14px;
+}
+
+#menubar {
+	margin-top: 0px;
+	background: white;
+	border-bottom: 1px solid rgb(215,218,219);
+}
+
+#menubar .option {
+
+	cursor: hand;
+	text-align: center;
+	font-weight: 300;
+	font-size: 16px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+#menubar .selected {
+	border-bottom: 3px solid #34495e;
+	font-weight: 700;
+	color: #34495e;
+}

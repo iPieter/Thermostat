@@ -1,14 +1,15 @@
 <html>
 <head>
-	<title>Dashboard</title>
+	<title>Digital Archive</title>
 	<link rel="icon" type="image/png" href="http://thermostat.ipieter.be/images/favicon.png">
 	
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:100,300,600' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	
-	<link rel="stylesheet" type="text/css" href="css/wall.css">
+	<link rel="stylesheet" type="text/css" href="css/topbar.css">
 	<link rel="stylesheet" type="text/css" href="css/sidebar.css">
+	<link rel="stylesheet" type="text/css" href="css/archive.css">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -36,18 +37,9 @@
         // people can view your members-only content without logging in. 
         die("Redirecting to account/login.php?r=index.php"); 
     }
-    require_once("model/Model.php");
-    $model = new Model();
-    require_once("model/User.model.php");
-
-    //make the alarm and user objects
-    		
-    $username = htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8');
-    $user = new User($username, $model);
-
-    echo $user->getName();
+    
 	include("elements/sidebar/sidebar.php");
-	include("elements/wall/wall.php");?>
+	include("elements/topbar/topbar.php");
+	include("elements/administration/archive.php");?>
 
 </body> 
-</html>

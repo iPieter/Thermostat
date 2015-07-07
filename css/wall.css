@@ -1,5 +1,5 @@
 #wall {	
-	margin-top: 0px;
+	margin-top: 5px;
 	margin-left: 170px;
 }
 
@@ -8,7 +8,6 @@
 }
 
 #wall .row {
-	border-right: 3px solid rgb(236, 240, 241);
 }
 
 #wall .brick {
@@ -17,9 +16,11 @@
 	z-index: auto;
 	/*padding: 2px;*/
 	height: 292px;
-	border-left: 3px solid rgb(236, 240, 241);
-	border-bottom: 3px solid rgb(236, 240, 241); 
+	border: 1px solid rgba(215,218,219,1);
+	border-radius: 3px;
+	margin: 3px;
 }
+
 
 #wall .mockup {
 	padding-top: 10px;
@@ -63,8 +64,10 @@
 }
 
 #wall .brickTop {
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 	background-color: #34495e; /*e74c3c*/
-	border-bottom: 3px solid #2c3e50; /*c0392b */
+	border-bottom: 1px solid #2c3e50; /*c0392b */
 	text-align: center;
 	text-transform: capitalize;
 	font-size: 18px;

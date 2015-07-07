@@ -12,8 +12,11 @@ $(document).ready(function () {
 
 	<div id="user">
 		<?php 
+		require_once("sidebarItem.class.php");
 		//get the username and image from the current user
 		$baseurl = "http://thermostat.ipieter.be/";
+		
+		
 		
 		$username = htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8');
 		$image = $baseurl. "images/users/". $username . ".jpg";
@@ -21,9 +24,9 @@ $(document).ready(function () {
 		echo "<div id='avatar'> <img src=". $image ." alt=". $username ."/> </div>";
 		echo "		<div class='dropdown'><a role='button' href='#'  data-toggle='dropdown' class='dropdown-toggle'> <div id='username'>  <span class='text'> $username </span>";
 		
-		function curPageName() {
-			return substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
-		}
+		
+		$current = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
+		
 
 		
 		?>
@@ -47,20 +50,37 @@ $(document).ready(function () {
 	
 	<div class="navigation">
 		<ul class="nav nav-pills  nav-stacked">
-			<li <?php if (curPageName() == "index.php") {echo "class='active'";} ?> ><a href="<?php echo $baseurl?>" data-target="#"><span class="glyphicon glyphicon-th-large"></span> Dashboard</a></li>
-			<li <?php if (curPageName() == "schedule.php") {echo "class='active'";} ?>> <a href="<?php echo $baseurl?>schedule.php" data-target="#"><span class="glyphicon glyphicon-calendar"></span> Schedule</a></li>
-			<hr>
-			<li class="device">Thermostat</li>
-			<li <?php if (curPageName() == "usage.php") {echo "class='active'";} ?>><a href="<?php echo $baseurl?>usage.php" data-target="#"><span class="glyphicon glyphicon-stats"></span> Usage</a></li>
-			<hr>
-			<li class="device">Alarm Clock</li>
-			<li <?php if (curPageName() == "alarm.php") {echo "class='active'";} ?>><a href="<?php echo $baseurl?>alarm.php" data-target="#"><span class="glyphicon glyphicon-time"></span> Alarm</a></li>
+			<li <?php if ($current == "index.php") {echo "class='active'";} ?> ><a href="<?php echo $baseurl?>" data-target="#"><span class="glyphicon glyphicon-th-large"></span> Dashboard</a></li>
+			<?php 
+			if ($user->hasAccess('thermostat')) {
+				echo "<hr>";
+				echo "<li class='device'>Thermostat</li>";
+				$shedule = new SidebarItem("Schedule", "calendar", "schedule.php");
+				$thermostat = new SidebarItem("Usage", "stats", "usage.php");
+				echo ($shedule->getHTML($baseurl, $current));
+				echo ($thermostat->getHTML($baseurl, $current));
+			}
+			if ($user->hasAccess('alarm')) {
+				echo "<hr>";
+				echo "<li class='device'>Alarm Clock</li>";
+				$time = new SidebarItem("Alarm", "time", "alarm.php");
+				echo ($time->getHTML($baseurl, $current));
+			}
+			if ($user->hasAccess('administration')) {
+				echo "<hr>";
+				echo "<li class='device'>Administration</li>";
+				$archive = new SidebarItem("Digital Archive", "briefcase", "administration.php");
+				$users = new SidebarItem("Users", "user", "users.php");
+				echo ($archive->getHTML($baseurl, $current));
+				echo ($users->getHTML($baseurl, $current));
+
+
+			}
+			?>
 			<hr>
 		</ul>
 	</div>
 	
- 
-	<! -- BRICKS -->
-	
+ 	
 	
 </div>

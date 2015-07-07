@@ -1,0 +1,53 @@
+#topbar {
+	position:fixed !important;
+	position:absolute;
+	top: 0;
+	z-index: 9999999;
+	margin-left: 170px;
+	width: auto;
+	height: 40px;
+	border-bottom: 3px solid rgb(236, 240, 241);
+	background-color: white;
+}
+
+#topbar nav .nav {
+	display: table;
+}
+
+#topbar .glyphicon {
+	margin-top: 3px;
+	margin-bottom: 3px;
+	font-size: 12px;
+}
+
+#topbar #add #btn {
+	padding-left: 0px;
+}
+
+#topbar #add {
+	border-right: 3px solid rgb(236, 240, 241);
+}
+
+
+#topbar input {
+    padding: 0px;
+    height: inherit;
+    border: 0px solid;
+	background-color: transparent;
+    box-shadow: 0px 0px 0px black;
+	font-weight: 100;
+    font-size: 28px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+#topbar button {
+    border: 0px solid;
+	background-color: transparent;
+    box-shadow: 0px 0px 0px black;
+}
+
+/*
+#topbar .top {
+	position: relative;
+	display: inline-block;
+}*/

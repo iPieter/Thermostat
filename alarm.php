@@ -23,8 +23,7 @@
     require("scripts/datalogin.php"); 
      
     // At the top of the page we check to see whether the user is logged in or not 
-    if(empty($_SESSION['user'])) 
-    { 
+    if(empty($_SESSION['user'])) { 
         // If they are not, we redirect them to the login page. 
         header("Location: account/login.php?r=alarm.php"); 
          
@@ -32,57 +31,93 @@
         // people can view your members-only content without logging in. 
         die("Redirecting to account/login.php?r=alarm.php"); 
     }
-    	
+    require_once("model/Alarm.model.php");	
+    require_once("controllers/AlarmManager.class.php");
+    require_once("model/User.model.php");
+    require_once("model/Model.php");
+
+    //make the alarm and user objects
+    $username = htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8');
+    $model = new Model();
+    $user = new User($username, $model);
+    
     //check the users access level
-	$accesslevel = mysqli_query($con, "SELECT * FROM users WHERE `users`.`username` = '$username';");
-	$row_accesslevel = mysqli_fetch_array($accesslevel);
 	
-	if ($row_accesslevel['accesslevel'] == 'viewer') {
+	/*if (!($user->hasAccess('alarm'))) {
         header("Location: index.php"); 
 
         die("Redirecting to index.php"); 
-     }
+     }*/
+     
+    //$alarmManager() = new AlarmManager($user);
 
+    
+    
+    
 	include("elements/sidebar/sidebar.php");
     
 	?>
 	<div class="page">
+		<div id="menubar"> <div class="container"> 
+			<div class="row"> 
+				<div id="devices" class="option col-lg-3 col-lg-offset-1-5 col-sm-4 selected">Alarm Clocks</div>
+				<div id="analysis" class="option col-lg-3 col-sm-4 ">Sleep Analysis</div>
+				<div id="settings" class="option col-lg-3 col-sm-4 ">Settings</div>
+			</div>
+		</div></div>
+		
+		<div id="wall" class="container-fluid">
+			<div class="alarm devices">
+				<?php include("elements/alarm/alarms.php");?>
+			</div>
+			
+			<div class="alarm analysis">
+				<?php include("elements/alarm/analysis.php");?>
 
-
-    <div class="input-group">
-      <input type="number" class="form-control" id="day" placeholder="day" aria-describedby="day">
-      <span class="input-group-addon" id="txt-day">day</span>
-      <input type="number" class="form-control" id="hour" placeholder="hour" aria-describedby="hour">
-      <span class="input-group-addon" id="txt-hour">h</span>
-      <input type="number" class="form-control" id="minute" placeholder="minute" aria-describedby="minute">
-      <span class="input-group-addon" id="txt-minute">m</span>
-      <span class="input-group-btn">
-        <button class="btn btn-default" id="submit" type="button">Go!</button>
-      </span>
-	</div></div>
+			</div>
+			
+			<div class="alarm settings">
+				<?php include("elements/alarm/settings.php");?>
+			</div>
+		</div>	
+	</div>
 <script> 
 
-var coreID = '53ff6f065067544809431287';
-var apiToken = 'ed12140a298d303849276bf9f204113269a44f2e';
-var baseURL = "https://api.spark.io/v1/devices/";
+$(window).load(function() {
+    $(".alarm").addClass("hidden");
+    $("." + $(".selected").attr('id')).removeClass("hidden");
 
-$("#submit").click(function(event) {
-	var timeMinutes = ($("#day").val()-1)*24*60 + $("#hour").val()*60 + $("#minute").val()*1;
-	alert(timeMinutes);
 });
 
-function doMethod(method, data) {
-    var url = baseURL + coreID + "/" + method;
-    $.ajax({
-      type: "POST",
-      url: url,
-      data: { access_token: apiToken, args: data },
-      success: onMethodSuccess,
-      dataType: "json"
-    }).fail(function(obj) {
-      onMethodFailure();
-    });
-  }
-  
+$(".option").click(function(event) {
+    $(".option").removeClass("selected");
+    $(this).addClass("selected");
+
+    $(".alarm").addClass("hidden");
+    $("." + $(this).attr('id')).removeClass("hidden");
+
+});
+
+var tid = setInterval(refresh, 2000);
+
+function refresh() {
+	
+	$.ajax({
+	url: 'scripts/get_acceleration.php',
+	type: "GET",
+    data: {device: '53ff6f065067544809431287'},
+	dataType: 'json',
+	success: function(data){
+			$("#x").html(data.x);
+			$("#y").html(data.y);
+			$("#z").html(data.z);
+			
+	      },
+	error: function (request, xhr) {
+	}
+	});
+	
+	
+}  
 </script>
 </body> 
