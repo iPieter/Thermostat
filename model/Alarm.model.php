@@ -16,6 +16,7 @@ class Alarm
 	}
 	
 	function getHTML() {
+		return '<div class="col-md-4"> <div class="brick">.col-md-3</div></div>';
 	}
 	
 }

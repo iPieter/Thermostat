@@ -1,11 +1,17 @@
-<?php 
-//list all the devices the user gets access to
-    echo $devicelist;
-?>
 <div class="row">
     <?php 
     	//$alarms = $alarmManager->getAlarmsArray();
         
+        $counter = 0; //for new rows
+        foreach ($user->getDevices('alarm') as $alarm) {
+			$alarmObj = new Alarm($alarm['id'],$alarm['spark_id'],$alarm['spark_token'],$alarm['location_name']);
+			echo $alarmObj->getHTML();
+	        
+	        $counter++;
+	        if ($counter%3 == 0) {
+		        echo '</div> <div class="row">';
+	        }
+        }
      ?>
         		
 </div>

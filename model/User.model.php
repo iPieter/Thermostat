@@ -23,7 +23,7 @@ class User
 	}
 	
 	function getDevices($func) {
-		$devices = $this->_model->query("SELECT * FROM devices WHERE function = '$func' ");
+		$devices = $this->_model->query("SELECT * FROM devices WHERE function = '$func' AND user_id =" .$this->_id);
 		return $devices;
 	}
 	

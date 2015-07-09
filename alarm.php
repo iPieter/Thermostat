@@ -31,10 +31,10 @@
         // people can view your members-only content without logging in. 
         die("Redirecting to account/login.php?r=alarm.php"); 
     }
+    require_once("model/Model.php");
     require_once("model/Alarm.model.php");	
     require_once("controllers/AlarmManager.class.php");
     require_once("model/User.model.php");
-    require_once("model/Model.php");
 
     //make the alarm and user objects
     $username = htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8');
@@ -98,7 +98,38 @@ $(".option").click(function(event) {
 
 });
 
-var tid = setInterval(refresh, 2000);
+//var tid = setInterval(refresh, 2000);
+
+$(".submit").click(function(event) {
+    $.ajax({
+		url: 'scripts/alarm_save_settings.php',
+		type: "POST",
+		data: {userId: $("#userId").val(), inputOffset: $("#inputOffset").val(), inputWebcal: $("#inputWebcal").val()},
+		dataType: 'json',
+		success: function(data){
+			if (data.cal == true) {
+				$("#cal").addClass("has-success");
+				$("#cal").removeClass("has-error");
+
+			} else {
+				$("#cal").removeClass("has-success");
+				$("#cal").addClass("has-error");
+
+			}
+			if (data.offset == true) {
+				$("#offset").addClass("has-success");
+				$("#offset").removeClass("has-error");
+
+			} else {
+				$("#offset").removeClass("has-success");
+				$("#offset").addClass("has-error");			
+			}
+	      },
+	      error: function (request, xhr) {
+	      }
+	});
+ 
+});
 
 function refresh() {
 	
