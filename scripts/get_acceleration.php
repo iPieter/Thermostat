@@ -12,7 +12,7 @@ $my_access_token=$row_device['spark_token'];
 try {        
 //get the measured sum 
 //Warning: BLACK MAGIC, DO NOT TOUCH!
-$url="https://api.spark.io/v1/devices/$my_device/x?access_token=$my_access_token";
+$url="https://api.spark.io/v1/devices/$my_device/brightness?access_token=$my_access_token";
 
 //  Initiate curl
 $ch = curl_init();
@@ -26,23 +26,16 @@ curl_setopt($ch, CURLOPT_URL,$url);
 $result=curl_exec($ch);
 
 $json = json_decode($result);
-$x = ($json->result);
+$brightness = ($json->result);
 
-$url="https://api.spark.io/v1/devices/$my_device/y?access_token=$my_access_token";
-
-curl_setopt($ch, CURLOPT_URL,$url);
-$result=curl_exec($ch);
-
-$json = json_decode($result);
-$y = ($json->result);
-
-$url="https://api.spark.io/v1/devices/$my_device/z?access_token=$my_access_token";
+$url="https://api.spark.io/v1/devices/$my_device/vector?access_token=$my_access_token";
 
 curl_setopt($ch, CURLOPT_URL,$url);
 $result=curl_exec($ch);
 
 $json = json_decode($result);
-$z = ($json->result);
+$vector = ($json->result);
+
 //$U1 = (($sum/$max_samples * $maxU)/$bits) * $ratio;
 
 //calculate power (P)
@@ -69,7 +62,7 @@ $z = ($json->result);
 //}
 
 //encode to json and show on the page
-$d = array('x' => $x, 'y' => $y, 'z'=> $z);
+$d = array('brightness' => $brightness, 'vector' => $vector);
 
 echo json_encode($d);
 }
@@ -78,7 +71,7 @@ catch (Exception $e) {
 	//include('cron.php');
 }
 //write everything in the database
-$sql = "INSERT INTO temp_accel_data (x, y, z) VALUES ($x, $y, $z)";
+$sql = "INSERT INTO temp_bao_data (brightness, vector) VALUES ($brightness, $vector)";
 
 mysqli_query($con, $sql);
 mysqli_close($con);

@@ -98,7 +98,7 @@ $(".option").click(function(event) {
 
 });
 
-//var tid = setInterval(refresh, 2000);
+var tid = setInterval(refresh, 1000);
 
 $(".submit").click(function(event) {
     $.ajax({
@@ -139,9 +139,8 @@ function refresh() {
     data: {device: '53ff6f065067544809431287'},
 	dataType: 'json',
 	success: function(data){
-			$("#x").html(data.x);
-			$("#y").html(data.y);
-			$("#z").html(data.z);
+			$("#brightness").html(data.brightness);
+			$("#vector").html(data.vector);
 			
 	      },
 	error: function (request, xhr) {

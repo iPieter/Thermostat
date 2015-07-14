@@ -16,8 +16,8 @@
         		
 </div>
 <div class="row">
-  <div class="col-md-4"> <div class="brick">.col-md-3</div></div>
-  <div class="col-md-4 "> <div class="brick">.col-md-3</div></div>
+  <div class="col-md-4"> <div class="brick"><h1>Brightness</h1><p id="brightness"></p></div></div>
+  <div class="col-md-4 "> <div class="brick"><h1>Vector</h1><p id="vector"></p></div></div>
   <div class="col-md-4 "> <div class="brick">.col-md-2</div></div>
 </div>
 

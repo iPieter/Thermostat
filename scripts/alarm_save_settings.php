@@ -5,8 +5,6 @@ $userId = $_POST['userId'];
 
 include('datalogin.php');
 
-
-
 //for now, we assume a webdav is already linked
 //write everything in the database
 //assume only one calender for each user
@@ -14,14 +12,16 @@ include('datalogin.php');
 
 //return  everything ok
 $replacedValues = array('webdav://', 'webcal://');
-if (isDomainAvailible(str_replace($replacedValues, 'http://', $calendar))) {
+
+if (isDomainAvailible(str_replace($replacedValues, 'http://', $calendar)) && $offset>0)  {
 	$d = array('cal' => true, 'offset' => true);
-	
-	$sql = "UPDATE alarm_calendars SET url='$calendar' WHERE user_id=$userId";
-	
-	mysqli_query($con, $sql);
+	$stmt = $con->prepare('UPDATE alarm_calendars SET url=?, offset=? WHERE user_id=?');
+	$stmt->bind_param('sii', $calendar,$offset, $userId);
+
+	$stmt->execute();
+
 } else {
-	$d = array('cal' => false, 'offset' => true);
+	$d = array('cal' => isDomainAvailible(str_replace($replacedValues, 'http://', $calendar)), 'offset' => $offset>0);
 
 }
 
